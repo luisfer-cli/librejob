@@ -348,6 +348,53 @@ jobs:
           if-no-files-found: error
 
       # ============================================================
+      # UPLOAD WINDOWS BUNDLES TO GITHUB RELEASE
+      # ============================================================
+
+      - name: Upload Windows bundles to Release
+        if: matrix.os == 'windows'
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          TAG_NAME: ${{ github.event.inputs.tagName || needs.release-please.outputs.tag_name }}
+
+        shell: bash
+
+        run: |
+          set -euo pipefail
+
+          echo "Looking for Windows bundles..."
+
+          FILES=()
+
+          for dir in src-tauri/target/release/bundle/nsis src-tauri/target/release/bundle/msi; do
+            if [ -d "$dir" ]; then
+              while IFS= read -r file; do
+                FILES+=("$file")
+              done < <(find "$dir" -maxdepth 1 -type f \( -name '*.exe' -o -name '*.msi' -o -name '*.sig' \))
+            fi
+          done
+
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "::error::No Windows bundles found."
+            exit 1
+          fi
+
+          echo ""
+          echo "Release tag:"
+          echo "$TAG_NAME"
+
+          echo ""
+          echo "Files to upload:"
+          printf '%s\n' "${FILES[@]}"
+
+          gh release upload \
+            "$TAG_NAME" \
+            "${FILES[@]}" \
+            --clobber
+
+      # ============================================================
       # UPLOAD LINUX APPIMAGE TO GITHUB RELEASE
       # ============================================================
 

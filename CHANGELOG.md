@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.2](https://github.com/luisfer-cli/librejob/compare/v0.3.1...v0.3.2) (2026-08-22)
+
+
+### Bug Fixes
+
+* build gh actions ([958eeb0](https://github.com/luisfer-cli/librejob/commit/958eeb0c4b8a6d06085b0df50e66e2779434bc29))
+
 ## [0.3.1](https://github.com/luisfer-cli/librejob/compare/v0.3.0...v0.3.1) (2026-08-22)
 
 

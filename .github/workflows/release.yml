@@ -8,9 +8,9 @@ on:
   workflow_dispatch:
     inputs:
       tagName:
-        description: 'Tag del release a construir (ej. v0.2.0). Vacío = no construir.'
+        description: "Tag del release a construir (ej. v0.2.0). Vacío = no construir."
         required: false
-        default: ''
+        default: ""
 
 permissions:
   contents: write
@@ -26,9 +26,9 @@ jobs:
       tag_name: ${{ steps.release.outputs.tag_name }}
 
     steps:
-      - uses: googleapis/release-please-action@v4
+      - name: Release Please
+        uses: googleapis/release-please-action@v4
         id: release
-
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -63,24 +63,38 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
+
+      # ============================================================
+      # CHECKOUT
+      # ============================================================
+
       - name: Checkout
         uses: actions/checkout@v4
-
         with:
           ref: ${{ github.event.inputs.tagName || github.ref }}
 
+      # ============================================================
+      # BUN
+      # ============================================================
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
-
         with:
           bun-version: latest
+
+      # ============================================================
+      # RUST
+      # ============================================================
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      # ============================================================
+      # LINUX DEPENDENCIES
+      # ============================================================
+
       - name: Install Linux dependencies
         if: matrix.os == 'linux'
-
         run: |
           sudo apt-get update
 
@@ -92,20 +106,44 @@ jobs:
             xdg-utils \
             squashfs-tools
 
+      # ============================================================
+      # FRONTEND
+      # ============================================================
+
       - name: Install frontend dependencies
         run: bun install --frozen-lockfile
 
       # ============================================================
-      # Linux
+      # LINUX BUILD
       # ============================================================
 
       - name: Build Linux AppImage
         if: matrix.os == 'linux'
 
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
         run: |
+          set -euo pipefail
+
           bun run tauri build --bundles appimage
 
-      - name: Fix Linux AppImage
+      # ============================================================
+      # FIX LINUX APPIMAGE
+      #
+      # Tauri/linuxdeploy puede empaquetar libwayland-* dentro
+      # del AppImage.
+      #
+      # En sistemas modernos con Mesa + Wayland esto puede producir:
+      #
+      # Could not create surfaceless EGL display: EGL_BAD_ALLOC
+      #
+      # Se eliminan las librerías Wayland empaquetadas para que
+      # el sistema use las librerías Wayland nativas.
+      # ============================================================
+
+      - name: Fix Linux AppImage Wayland libraries
         if: matrix.os == 'linux'
 
         shell: bash
@@ -114,6 +152,12 @@ jobs:
           set -euo pipefail
 
           BUNDLE_DIR="src-tauri/target/release/bundle/appimage"
+
+          echo "========================================="
+          echo "Looking for AppImage"
+          echo "========================================="
+
+          ls -lah "$BUNDLE_DIR"
 
           APPIMAGE="$(find "$BUNDLE_DIR" \
             -maxdepth 1 \
@@ -126,27 +170,57 @@ jobs:
             exit 1
           fi
 
-          echo "Original AppImage:"
+          echo ""
+          echo "AppImage:"
           echo "$APPIMAGE"
+
+          # --------------------------------------------------------
+          # Temporary directory
+          # --------------------------------------------------------
 
           WORKDIR="$(mktemp -d)"
 
+          echo ""
+          echo "Working directory:"
+          echo "$WORKDIR"
+
+          # --------------------------------------------------------
+          # Extract AppImage
+          # --------------------------------------------------------
+
+          echo ""
           echo "Extracting AppImage..."
 
           (
             cd "$WORKDIR"
-            "$GITHUB_WORKSPACE/$APPIMAGE" --appimage-extract
+
+            "$GITHUB_WORKSPACE/$APPIMAGE" \
+              --appimage-extract
           )
 
           APPDIR="$WORKDIR/squashfs-root"
 
+          if [ ! -d "$APPDIR" ]; then
+            echo "::error::AppImage extraction failed."
+            exit 1
+          fi
+
+          # --------------------------------------------------------
+          # Show bundled Wayland libraries
+          # --------------------------------------------------------
+
           echo ""
-          echo "Bundled Wayland libraries:"
+          echo "Bundled Wayland libraries BEFORE fix:"
+
           find "$APPDIR/usr/lib" \
             -maxdepth 1 \
             -type f \
             -name 'libwayland-*' \
             -print || true
+
+          # --------------------------------------------------------
+          # Remove problematic libraries
+          # --------------------------------------------------------
 
           echo ""
           echo "Removing bundled Wayland libraries..."
@@ -156,13 +230,22 @@ jobs:
           rm -f "$APPDIR/usr/lib/libwayland-egl.so.1"
           rm -f "$APPDIR/usr/lib/libwayland-server.so.0"
 
+          # --------------------------------------------------------
+          # Verify
+          # --------------------------------------------------------
+
           echo ""
-          echo "Remaining Wayland libraries:"
+          echo "Bundled Wayland libraries AFTER fix:"
+
           find "$APPDIR/usr/lib" \
             -maxdepth 1 \
             -type f \
             -name 'libwayland-*' \
             -print || true
+
+          # --------------------------------------------------------
+          # Download appimagetool
+          # --------------------------------------------------------
 
           echo ""
           echo "Downloading appimagetool..."
@@ -179,10 +262,21 @@ jobs:
 
           chmod +x "$APPIMAGETOOL"
 
+          # --------------------------------------------------------
+          # Remove original AppImage
+          # --------------------------------------------------------
+
           echo ""
-          echo "Rebuilding AppImage..."
+          echo "Removing original AppImage..."
 
           rm -f "$APPIMAGE"
+
+          # --------------------------------------------------------
+          # Rebuild AppImage
+          # --------------------------------------------------------
+
+          echo ""
+          echo "Rebuilding fixed AppImage..."
 
           ARCH=x86_64 \
             "$APPIMAGETOOL" \
@@ -191,22 +285,40 @@ jobs:
 
           chmod +x "$APPIMAGE"
 
+          # --------------------------------------------------------
+          # Verify final file
+          # --------------------------------------------------------
+
           echo ""
-          echo "Final AppImage:"
+          echo "========================================="
+          echo "FINAL APPIMAGE"
+          echo "========================================="
+
           ls -lh "$APPIMAGE"
 
+          file "$APPIMAGE"
+
+          echo ""
+          echo "AppImage successfully rebuilt."
+
       # ============================================================
-      # Windows
+      # WINDOWS BUILD
       # ============================================================
 
       - name: Build Windows
         if: matrix.os == 'windows'
 
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+
+        shell: bash
+
         run: |
           bun run tauri build
 
       # ============================================================
-      # Upload artifacts
+      # UPLOAD LINUX ARTIFACT
       # ============================================================
 
       - name: Upload Linux AppImage
@@ -218,6 +330,12 @@ jobs:
           name: LibreJob-Linux-AppImage
           path: src-tauri/target/release/bundle/appimage/*.AppImage
 
+          if-no-files-found: error
+
+      # ============================================================
+      # UPLOAD WINDOWS ARTIFACT
+      # ============================================================
+
       - name: Upload Windows bundles
         if: matrix.os == 'windows'
 
@@ -226,3 +344,45 @@ jobs:
         with:
           name: LibreJob-Windows
           path: src-tauri/target/release/bundle/**
+
+          if-no-files-found: error
+
+      # ============================================================
+      # UPLOAD LINUX APPIMAGE TO GITHUB RELEASE
+      # ============================================================
+
+      - name: Upload Linux AppImage to Release
+        if: matrix.os == 'linux'
+
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+          TAG_NAME: ${{ github.event.inputs.tagName || needs.release-please.outputs.tag_name }}
+
+        shell: bash
+
+        run: |
+          set -euo pipefail
+
+          APPIMAGE="$(find \
+            src-tauri/target/release/bundle/appimage \
+            -maxdepth 1 \
+            -type f \
+            -name '*.AppImage' \
+            | head -n 1)"
+
+          if [ -z "$APPIMAGE" ]; then
+            echo "::error::No AppImage found."
+            exit 1
+          fi
+
+          echo "Uploading:"
+          echo "$APPIMAGE"
+
+          echo "Release tag:"
+          echo "$TAG_NAME"
+
+          gh release upload \
+            "$TAG_NAME" \
+            "$APPIMAGE" \
+            --clobber

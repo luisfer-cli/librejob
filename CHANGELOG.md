@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.3](https://github.com/luisfer-cli/librejob/compare/v0.3.2...v0.3.3) (2026-08-22)
+
+
+### Bug Fixes
+
+* upload Windows bundles to GitHub release ([3de23c0](https://github.com/luisfer-cli/librejob/commit/3de23c01cb6d799b19f2272827313438d1984b84))
+
 ## [0.3.2](https://github.com/luisfer-cli/librejob/compare/v0.3.1...v0.3.2) (2026-08-22)
 
 

@@ -97,8 +97,8 @@
         <div class="field">
           <label>{{ "cvw.period" | t }}</label>
           <div class="row">
-            <input [(ngModel)]="expForm.startDate" [placeholder]="'cvw.start' | t" />
-            <input [(ngModel)]="expForm.endDate" [placeholder]="'cvw.end' | t" />
+            <input type="month" [(ngModel)]="expForm.startDate" [attr.aria-label]="'cvw.start' | t" />
+            <input type="month" [(ngModel)]="expForm.endDate" [attr.aria-label]="'cvw.end' | t" />
           </div>
         </div>
       </div>
@@ -168,8 +168,8 @@
         <div class="field">
           <label>{{ "cvw.period" | t }}</label>
           <div class="row">
-            <input [(ngModel)]="eduForm.startDate" [placeholder]="'cvw.start' | t" />
-            <input [(ngModel)]="eduForm.endDate" [placeholder]="'cvw.end' | t" />
+            <input type="month" [(ngModel)]="eduForm.startDate" [attr.aria-label]="'cvw.start' | t" />
+            <input type="month" [(ngModel)]="eduForm.endDate" [attr.aria-label]="'cvw.end' | t" />
           </div>
         </div>
       </div>
@@ -280,7 +280,7 @@
         </div>
         <div class="field">
           <label>{{ "cvw.date" | t }}</label>
-          <input [(ngModel)]="certForm.date" />
+          <input type="month" [(ngModel)]="certForm.date" [attr.aria-label]="'cvw.date' | t" />
         </div>
       </div>
       <button class="btn btn-primary" (click)="saveCertification()">{{ "cvw.add" | t }}</button>

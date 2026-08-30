@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0](https://github.com/luisfer-cli/librejob/compare/v0.3.3...v0.4.0) (2026-08-30)
+
+
+### Features
+
+* improved way to input dates ([90af388](https://github.com/luisfer-cli/librejob/commit/90af3883cd08e02ba30f65aba5f22e73a1895ef9))
+* right click on job cards ([b59adc9](https://github.com/luisfer-cli/librejob/commit/b59adc99b3621bf9581a309d7616f2aa2f199b72))
+* save pdf button on NO-AI resume ([a268708](https://github.com/luisfer-cli/librejob/commit/a2687088342a0ec363f7858548f29f41c283d8c3))
+* upload a resume pdf to load data ([fe0de1e](https://github.com/luisfer-cli/librejob/commit/fe0de1e31ef419a414f1d3b165842577a35a4890))
+
 ## [0.3.3](https://github.com/luisfer-cli/librejob/compare/v0.3.2...v0.3.3) (2026-08-22)
 
 

@@ -109,6 +109,38 @@ Rellena cada campo con la información encontrada en la oferta. Usa arrays de st
 }
 
 #[tauri::command]
+pub async fn parse_cv(
+    base_url: String,
+    api_key: String,
+    model: String,
+    path: String,
+) -> Result<CvData, String> {
+    let extension = std::path::Path::new(&path)
+        .extension()
+        .and_then(|e| e.to_str())
+        .unwrap_or_default()
+        .to_ascii_lowercase();
+    let text = match extension.as_str() {
+        "pdf" => pdf_extract::extract_text(&path)
+            .map_err(|e| format!("No se pudo extraer texto del PDF: {e}"))?,
+        "txt" => std::fs::read_to_string(&path)
+            .map_err(|e| format!("No se pudo leer el archivo: {e}"))?,
+        _ => return Err("Selecciona un archivo PDF o TXT".to_string()),
+    };
+    if text.trim().is_empty() {
+        return Err("No se pudo extraer texto del archivo. Puede ser un PDF escaneado.".to_string());
+    }
+
+    let text: String = text.chars().take(120_000).collect();
+    let system = r#"Eres un experto en extraer información de currículums. Recibes el texto de un CV y debes convertirlo en datos estructurados. Responde SIEMPRE con JSON válido, sin texto adicional, con exactamente esta estructura:
+{"profile":{"fullName":"","jobTitle":"","email":"","phone":"","location":"","linkedin":"","website":"","summary":""},"experiences":[{"company":"","role":"","location":"","startDate":"","endDate":"","current":false,"description":[]}],"education":[{"institution":"","degree":"","field":"","startDate":"","endDate":""}],"skills":[{"name":"","level":"","category":""}],"languages":[{"name":"","level":""}],"certifications":[{"name":"","issuer":"","date":""}],"projects":[{"name":"","description":"","link":""}]}
+Extrae solo información presente en el documento. Si un dato no aparece, usa una cadena o lista vacía. Normaliza las fechas de experiencia, educación y certificaciones al formato YYYY-MM cuando sea posible. Mantén el idioma original del CV."#;
+    let user = format!("Texto del currículum:\n\n{text}");
+    let v = ask_json(&base_url, &api_key, &model, system, &user).await?;
+    serde_json::from_value(v).map_err(|e| format!("No se pudo interpretar el currículum: {e}"))
+}
+
+#[tauri::command]
 pub async fn generate_cv(
     base_url: String,
     api_key: String,

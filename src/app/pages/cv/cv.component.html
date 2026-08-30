@@ -9,6 +9,14 @@
   </button>
 </div>
 
+<div *ngIf="importError" class="alert alert-error">{{ importError }}</div>
+<div class="cv-import-row">
+  <button class="btn" type="button" (click)="importCv()" [disabled]="importing || importReview">
+    <span class="nf nf-file"></span>
+    {{ importing ? ("busy.cvImport" | t) : ("cvw.importPdf" | t) }}
+  </button>
+</div>
+
 <!-- Stepper -->
 <div class="stepper">
   <button
@@ -404,6 +412,18 @@
     >
       {{ saving ? ("common.saving" | t) : ("cvw.finish" | t) }}
       <span class="nf nf-check"></span>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="importReview" class="import-review alert">
+  <span>{{ "cvw.importReview" | t }}</span>
+  <div class="import-actions">
+    <button class="btn btn-sm" type="button" (click)="cancelImport()" [disabled]="importing">
+      {{ "common.cancel" | t }}
+    </button>
+    <button class="btn btn-primary btn-sm" type="button" (click)="confirmImport()" [disabled]="importing">
+      {{ importing ? ("common.saving" | t) : ("cvw.importConfirm" | t) }}
     </button>
   </div>
 </div>

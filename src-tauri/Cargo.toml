@@ -27,3 +27,4 @@ tauri-plugin-dialog = "2.7.2"
 reqwest = { version = "0.13.4", default-features = false, features = ["json", "rustls"] }
 tauri-plugin-updater = "2.10.1"
 tauri-plugin-process = "2.3.1"
+pdf-extract = "0.7"

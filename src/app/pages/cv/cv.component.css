@@ -64,6 +64,26 @@
   max-width: none;
 }
 
+.cv-import-row {
+  display: flex;
+  justify-content: flex-end;
+  margin: -10px 0 16px;
+}
+
+.import-review {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.import-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .cv-export-btn {
   padding: 8px 14px;
   box-shadow: var(--shadow-lg);

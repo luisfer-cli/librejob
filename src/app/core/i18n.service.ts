@@ -184,6 +184,7 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "busy.test": { es: "Generando prueba técnica...", en: "Generating technical test..." },
   "busy.ats": { es: "Analizando encaje ATS...", en: "Analyzing ATS fit..." },
   "busy.pdf": { es: "Generando PDF...", en: "Generating PDF..." },
+  "busy.cvImport": { es: "Analizando CV...", en: "Analyzing resume..." },
 
   // ---- Modal CV (generar) ----
   "cvmodal.title": { es: "Generar CV especializado", en: "Generate tailored CV" },
@@ -280,6 +281,12 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: "Fill in the data step by step. Used to generate tailored CVs.",
   },
   "cvw.exportPdf": { es: "Guardar CV en PDF", en: "Save resume as PDF" },
+  "cvw.importPdf": { es: "Importar CV", en: "Import resume" },
+  "cvw.importReview": {
+    es: "Revisa los datos extraídos. Puedes editarlos antes de reemplazar tu CV actual.",
+    en: "Review the extracted data. You can edit it before replacing your current resume.",
+  },
+  "cvw.importConfirm": { es: "Reemplazar CV actual", en: "Replace current resume" },
   "cvw.fullName": { es: "Nombre completo", en: "Full name" },
   "cvw.jobTitle": { es: "Título / Puesto actual", en: "Current title / role" },
   "cvw.email": { es: "Email", en: "Email" },

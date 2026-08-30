@@ -3,11 +3,13 @@ import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { invoke } from "@tauri-apps/api/core";
-import { save } from "@tauri-apps/plugin-dialog";
+import { open, save } from "@tauri-apps/plugin-dialog";
+import { AiService } from "../../core/ai.service";
 import { DbService } from "../../core/db.service";
 import { ConfirmService } from "../../core/confirm.service";
 import { I18nService } from "../../core/i18n.service";
 import { PdfService } from "../../core/pdf.service";
+import { SettingsService } from "../../core/settings.service";
 import { TranslatePipe } from "../../core/translate.pipe";
 import type {
   Certification,
@@ -17,6 +19,7 @@ import type {
   Project,
   Skill,
   WorkExperience,
+  CvData,
 } from "../../core/models";
 
 const emptyExp = (): WorkExperience => ({
@@ -62,6 +65,9 @@ export class CvComponent implements OnInit {
   step = 0;
   saving = false;
   exporting = false;
+  importing = false;
+  importReview = false;
+  importError = "";
   finished = false;
 
   profile: Profile = {
@@ -101,12 +107,15 @@ export class CvComponent implements OnInit {
 
   projectForm: Project = emptyProject();
   projectEditId: number | null = null;
+  private importBackup: CvData | null = null;
 
   constructor(
     private db: DbService,
+    private ai: AiService,
     private confirm: ConfirmService,
     private i18n: I18nService,
     private pdf: PdfService,
+    private settings: SettingsService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -186,6 +195,83 @@ export class CvComponent implements OnInit {
     } finally {
       this.exporting = false;
     }
+  }
+
+  async importCv(): Promise<void> {
+    if (this.importing) return;
+    this.importError = "";
+    if (!this.settings.isConfigured) {
+      this.importError = this.i18n.t("error.configureAi");
+      return;
+    }
+    const selected = await open({
+      multiple: false,
+      directory: false,
+      filters: [{ name: "CV", extensions: ["pdf", "txt"] }],
+    });
+    const path = typeof selected === "string" ? selected : null;
+    if (!path) return;
+
+    this.importing = true;
+    try {
+      this.importBackup = this.cloneCvData(this.currentCvData());
+      const imported = await this.ai.parseCv(path);
+      this.applyCvData(imported);
+      this.importReview = true;
+    } catch (e) {
+      this.importBackup = null;
+      this.importError = String(e);
+    } finally {
+      this.importing = false;
+    }
+  }
+
+  async confirmImport(): Promise<void> {
+    if (!this.importReview || this.importing) return;
+    this.importing = true;
+    this.importReview = false;
+    try {
+      await this.db.replaceCvData(this.currentCvData());
+      this.importBackup = null;
+    } catch (e) {
+      this.importError = String(e);
+      this.importReview = true;
+    } finally {
+      this.importing = false;
+    }
+  }
+
+  cancelImport(): void {
+    if (this.importBackup) this.applyCvData(this.importBackup);
+    this.importReview = false;
+    this.importBackup = null;
+    this.importError = "";
+  }
+
+  private currentCvData(): CvData {
+    return {
+      profile: this.profile,
+      experiences: this.experiences,
+      education: this.education,
+      skills: this.skills,
+      languages: this.languages,
+      certifications: this.certifications,
+      projects: this.projects,
+    };
+  }
+
+  private applyCvData(cv: CvData): void {
+    this.profile = cv.profile;
+    this.experiences = cv.experiences;
+    this.education = cv.education;
+    this.skills = cv.skills;
+    this.languages = cv.languages;
+    this.certifications = cv.certifications;
+    this.projects = cv.projects;
+  }
+
+  private cloneCvData(cv: CvData): CvData {
+    return JSON.parse(JSON.stringify(cv)) as CvData;
   }
 
   // --- Experiencia ---

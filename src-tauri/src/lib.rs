@@ -21,6 +21,7 @@ pub fn run() {
             commands::list_models,
             commands::test_connection,
             commands::parse_job_offer,
+            commands::parse_cv,
             commands::generate_cv,
             commands::generate_cover_letter,
             commands::generate_technical_test,

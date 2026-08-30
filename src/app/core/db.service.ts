@@ -76,6 +76,26 @@ export class DbService {
     );
   }
 
+  async replaceCvData(cv: CvData): Promise<void> {
+    // tauri-plugin-sql usa un pool; las consultas separadas no garantizan
+    // permanecer en la misma conexión para una transacción SQLite.
+    await this.saveProfile(cv.profile);
+    const db = await this.d();
+    await db.execute("DELETE FROM work_experiences");
+    await db.execute("DELETE FROM education");
+    await db.execute("DELETE FROM skills");
+    await db.execute("DELETE FROM languages");
+    await db.execute("DELETE FROM certifications");
+    await db.execute("DELETE FROM projects");
+
+    for (const e of cv.experiences) await this.addExperience(e);
+    for (const e of cv.education) await this.addEducation(e);
+    for (const s of cv.skills) await this.addSkill(s);
+    for (const l of cv.languages) await this.addLanguage(l);
+    for (const c of cv.certifications) await this.addCertification(c);
+    for (const p of cv.projects) await this.addProject(p);
+  }
+
   async getCvData(): Promise<CvData> {
     const [profile, experiences, education, skills, languages, certifications, projects] =
       await Promise.all([

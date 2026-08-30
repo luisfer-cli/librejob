@@ -35,6 +35,11 @@ export class AiService {
     return invoke<JobOfferStructured>("parse_job_offer", { baseUrl, apiKey, model, text });
   }
 
+  async parseCv(path: string): Promise<CvData> {
+    const { baseUrl, apiKey, model } = this.ctx();
+    return invoke<CvData>("parse_cv", { baseUrl, apiKey, model, path });
+  }
+
   async generateCv(
     cvData: CvData,
     offer: JobOfferStructured,

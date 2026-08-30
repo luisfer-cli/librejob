@@ -287,10 +287,6 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "cvw.linkedin": { es: "LinkedIn", en: "LinkedIn" },
   "cvw.website": { es: "Sitio web / Portfolio", en: "Website / Portfolio" },
   "cvw.professionalSummary": { es: "Resumen profesional", en: "Professional summary" },
-  "cvw.summaryPlaceholder": {
-    es: "2-3 frases sobre tu perfil y experiencia...",
-    en: "2-3 sentences about your profile and experience...",
-  },
   "cvw.experienceTitle": { es: "Experiencia laboral", en: "Work experience" },
   "cvw.noRole": { es: "Sin cargo", en: "No role" },
   "cvw.noCompany": { es: "Sin empresa", en: "No company" },
@@ -306,10 +302,6 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "cvw.end": { es: "Fin (2024-06)", en: "End (2024-06)" },
   "cvw.currentRole": { es: "Puesto actual", en: "Current position" },
   "cvw.description": { es: "Descripción / logros", en: "Description / achievements" },
-  "cvw.addAchievement": {
-    es: "Añade un logro o responsabilidad...",
-    en: "Add an achievement or responsibility...",
-  },
   "cvw.add": { es: "Añadir", en: "Add" },
   "cvw.saveChanges": { es: "Guardar cambios", en: "Save changes" },
   "cvw.noEducation": { es: "Aún no has añadido formación.", en: "You haven't added any education yet." },

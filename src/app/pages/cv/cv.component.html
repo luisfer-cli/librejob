@@ -27,36 +27,36 @@
     <div class="grid grid-2">
       <div class="field">
         <label>{{ "cvw.fullName" | t }}</label>
-        <input [(ngModel)]="profile.fullName" placeholder="Ana García Pérez" />
+        <input [(ngModel)]="profile.fullName" />
       </div>
       <div class="field">
         <label>{{ "cvw.jobTitle" | t }}</label>
-        <input [(ngModel)]="profile.jobTitle" placeholder="Desarrolladora Frontend" />
+        <input [(ngModel)]="profile.jobTitle" />
       </div>
       <div class="field">
         <label>{{ "cvw.email" | t }}</label>
-        <input [(ngModel)]="profile.email" placeholder="ana@email.com" />
+        <input [(ngModel)]="profile.email" />
       </div>
       <div class="field">
         <label>{{ "cvw.phone" | t }}</label>
-        <input [(ngModel)]="profile.phone" placeholder="+34 600 000 000" />
+        <input [(ngModel)]="profile.phone" />
       </div>
       <div class="field">
         <label>{{ "cvw.location" | t }}</label>
-        <input [(ngModel)]="profile.location" placeholder="Madrid, España" />
+        <input [(ngModel)]="profile.location" />
       </div>
       <div class="field">
         <label>{{ "cvw.linkedin" | t }}</label>
-        <input [(ngModel)]="profile.linkedin" placeholder="linkedin.com/in/ana" />
+        <input [(ngModel)]="profile.linkedin" />
       </div>
       <div class="field">
         <label>{{ "cvw.website" | t }}</label>
-        <input [(ngModel)]="profile.website" placeholder="ana.dev" />
+        <input [(ngModel)]="profile.website" />
       </div>
     </div>
     <div class="field">
       <label>{{ "cvw.professionalSummary" | t }}</label>
-      <textarea [(ngModel)]="profile.summary" [placeholder]="'cvw.summaryPlaceholder' | t"></textarea>
+      <textarea [(ngModel)]="profile.summary"></textarea>
     </div>
   </ng-container>
 
@@ -118,7 +118,6 @@
         <div class="row">
           <input
             [(ngModel)]="newAchievement"
-            [placeholder]="'cvw.addAchievement' | t"
             (keyup.enter)="addAchievement()"
           />
           <button type="button" class="btn btn-sm" (click)="addAchievement()">{{ "cvw.add" | t }}</button>
@@ -202,15 +201,15 @@
       <div class="grid grid-3">
         <div class="field">
           <label>{{ "cvw.skill" | t }}</label>
-          <input [(ngModel)]="skillForm.name" placeholder="Angular" />
+          <input [(ngModel)]="skillForm.name" />
         </div>
         <div class="field">
           <label>{{ "cvw.level" | t }}</label>
-          <input [(ngModel)]="skillForm.level" placeholder="Avanzado" />
+          <input [(ngModel)]="skillForm.level" />
         </div>
         <div class="field">
           <label>{{ "cvw.category" | t }}</label>
-          <input [(ngModel)]="skillForm.category" placeholder="Frontend" />
+          <input [(ngModel)]="skillForm.category" />
         </div>
       </div>
       <button class="btn btn-primary" (click)="saveSkill()">{{ "cvw.add" | t }}</button>
@@ -239,11 +238,11 @@
       <div class="grid grid-2">
         <div class="field">
           <label>{{ "cvw.language" | t }}</label>
-          <input [(ngModel)]="langForm.name" placeholder="Inglés" />
+          <input [(ngModel)]="langForm.name" />
         </div>
         <div class="field">
           <label>{{ "cvw.level" | t }}</label>
-          <input [(ngModel)]="langForm.level" placeholder="C1" />
+          <input [(ngModel)]="langForm.level" />
         </div>
       </div>
       <button class="btn btn-primary" (click)="saveLanguage()">{{ "cvw.add" | t }}</button>

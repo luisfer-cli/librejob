@@ -1,6 +1,12 @@
 <div class="page-header">
-  <h1>{{ "cvw.title" | t }}</h1>
-  <span class="muted">{{ "cvw.subtitle" | t }}</span>
+  <div>
+    <h1>{{ "cvw.title" | t }}</h1>
+    <span class="muted">{{ "cvw.subtitle" | t }}</span>
+  </div>
+  <button class="btn btn-primary cv-export-btn" type="button" (click)="exportPdf()" [disabled]="exporting">
+    <span class="nf nf-save"></span>
+    {{ exporting ? ("busy.pdf" | t) : ("cvw.exportPdf" | t) }}
+  </button>
 </div>
 
 <!-- Stepper -->

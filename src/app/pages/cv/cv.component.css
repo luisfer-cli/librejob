@@ -64,6 +64,15 @@
   max-width: none;
 }
 
+.cv-export-btn {
+  padding: 8px 14px;
+  box-shadow: var(--shadow-lg);
+}
+
+.cv-export-btn:hover {
+  box-shadow: var(--shadow-lg);
+}
+
 .list-panel {
   margin-bottom: 18px;
 }

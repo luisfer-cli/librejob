@@ -2,9 +2,12 @@ import { CommonModule } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
+import { invoke } from "@tauri-apps/api/core";
+import { save } from "@tauri-apps/plugin-dialog";
 import { DbService } from "../../core/db.service";
 import { ConfirmService } from "../../core/confirm.service";
 import { I18nService } from "../../core/i18n.service";
+import { PdfService } from "../../core/pdf.service";
 import { TranslatePipe } from "../../core/translate.pipe";
 import type {
   Certification,
@@ -58,6 +61,7 @@ export class CvComponent implements OnInit {
   ];
   step = 0;
   saving = false;
+  exporting = false;
   finished = false;
 
   profile: Profile = {
@@ -102,6 +106,7 @@ export class CvComponent implements OnInit {
     private db: DbService,
     private confirm: ConfirmService,
     private i18n: I18nService,
+    private pdf: PdfService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -153,6 +158,34 @@ export class CvComponent implements OnInit {
 
   async saveProfile(): Promise<void> {
     await this.db.saveProfile(this.profile);
+  }
+
+  async exportPdf(): Promise<void> {
+    if (this.exporting) return;
+    this.exporting = true;
+    try {
+      const path = await save({
+        defaultPath: `${this.profile.fullName || "cv"}.pdf`,
+        filters: [{ name: "PDF", extensions: ["pdf"] }],
+      });
+      if (!path) return;
+
+      const cv = {
+        ...this.profile,
+        experiences: this.experiences,
+        education: this.education,
+        skills: this.skills.map((skill) => skill.name).filter(Boolean),
+        languages: this.languages,
+        certifications: this.certifications,
+        projects: this.projects,
+      };
+      const bytes = await this.pdf.buildCv(cv);
+      await invoke<string>("save_file", { path, bytes });
+    } catch (e) {
+      console.error("No se pudo exportar el CV:", e);
+    } finally {
+      this.exporting = false;
+    }
   }
 
   // --- Experiencia ---

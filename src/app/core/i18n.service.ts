@@ -279,6 +279,7 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     es: "Completa los datos por pasos. Se usan para generar CVs especializados.",
     en: "Fill in the data step by step. Used to generate tailored CVs.",
   },
+  "cvw.exportPdf": { es: "Guardar CV en PDF", en: "Save resume as PDF" },
   "cvw.fullName": { es: "Nombre completo", en: "Full name" },
   "cvw.jobTitle": { es: "Título / Puesto actual", en: "Current title / role" },
   "cvw.email": { es: "Email", en: "Email" },

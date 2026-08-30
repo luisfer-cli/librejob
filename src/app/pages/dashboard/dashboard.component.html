@@ -57,6 +57,7 @@
         class="offer-card"
         draggable="true"
         (dragstart)="onDragStart($event, o.id)"
+        (contextmenu)="openContextMenu($event, o)"
       >
         <a [routerLink]="['/offers', o.id]">{{ o.title || ("offers.noTitle" | t) }}</a>
         <span class="muted">{{ o.company }}</span>
@@ -64,4 +65,26 @@
       <p *ngIf="!offersBy(col).length" class="empty">{{ "dashboard.empty" | t }}</p>
     </div>
   </div>
+</div>
+
+<div
+  *ngIf="contextOffer as offer"
+  class="context-menu"
+  [style.left.px]="contextX"
+  [style.top.px]="contextY"
+  role="menu"
+  (click)="$event.stopPropagation()"
+>
+  <button *ngIf="nextStatus(offer.status)" type="button" role="menuitem" (click)="moveToNext()">
+    <span class="nf nf-arrow-right"></span>
+    {{ "dashboard.context.next" | t }}
+  </button>
+  <button *ngIf="offer.status !== 'rechazada'" type="button" role="menuitem" (click)="moveToRejected()">
+    <span class="nf nf-close-circle"></span>
+    {{ "dashboard.context.rejected" | t }}
+  </button>
+  <button type="button" role="menuitem" class="danger" (click)="removeOffer()">
+    <span class="nf nf-delete"></span>
+    {{ "dashboard.context.delete" | t }}
+  </button>
 </div>

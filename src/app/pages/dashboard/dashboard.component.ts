@@ -1,11 +1,18 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit } from "@angular/core";
 import { RouterLink } from "@angular/router";
+import { ConfirmService } from "../../core/confirm.service";
 import { DbService } from "../../core/db.service";
+import { I18nService } from "../../core/i18n.service";
 import { TranslatePipe } from "../../core/translate.pipe";
 import type { JobOffer, OfferStatus } from "../../core/models";
 
 const COLUMNS: OfferStatus[] = ["guardada", "aplicada", "entrevista", "oferta", "rechazada"];
+const NEXT_STATUS: Partial<Record<OfferStatus, OfferStatus>> = {
+  guardada: "aplicada",
+  aplicada: "entrevista",
+  entrevista: "oferta",
+};
 
 @Component({
   selector: "app-dashboard",
@@ -18,8 +25,15 @@ export class DashboardComponent implements OnInit {
   offers: JobOffer[] = [];
   dragId: number | null = null;
   dragOverColumn: OfferStatus | null = null;
+  contextOffer: JobOffer | null = null;
+  contextX = 0;
+  contextY = 0;
 
-  constructor(private db: DbService) {}
+  constructor(
+    private db: DbService,
+    private confirm: ConfirmService,
+    private i18n: I18nService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.load();
@@ -55,5 +69,62 @@ export class DashboardComponent implements OnInit {
     if (!id) return;
     await this.db.updateOfferStatus(id, status);
     await this.load();
+  }
+
+  openContextMenu(event: MouseEvent, offer: JobOffer): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.contextOffer = offer;
+    this.contextX = Math.min(event.clientX, Math.max(8, window.innerWidth - 228));
+    this.contextY = Math.min(event.clientY, Math.max(8, window.innerHeight - 156));
+  }
+
+  closeContextMenu(): void {
+    this.contextOffer = null;
+  }
+
+  nextStatus(status: OfferStatus): OfferStatus | null {
+    return NEXT_STATUS[status] ?? null;
+  }
+
+  async moveToNext(): Promise<void> {
+    const offer = this.contextOffer;
+    const status = offer ? this.nextStatus(offer.status) : null;
+    if (!offer || !status) return;
+    this.closeContextMenu();
+    await this.db.updateOfferStatus(offer.id, status);
+    await this.load();
+  }
+
+  async moveToRejected(): Promise<void> {
+    const offer = this.contextOffer;
+    if (!offer || offer.status === "rechazada") return;
+    this.closeContextMenu();
+    await this.db.updateOfferStatus(offer.id, "rechazada");
+    await this.load();
+  }
+
+  async removeOffer(): Promise<void> {
+    const offer = this.contextOffer;
+    if (!offer) return;
+    this.closeContextMenu();
+    const ok = await this.confirm.confirm({
+      title: this.i18n.t("confirm.deleteOfferTitle"),
+      message: this.i18n.t("confirm.deleteOffer"),
+      confirmText: this.i18n.t("common.delete"),
+    });
+    if (!ok) return;
+    await this.db.deleteOffer(offer.id);
+    await this.load();
+  }
+
+  @HostListener("document:click")
+  onDocumentClick(): void {
+    this.closeContextMenu();
+  }
+
+  @HostListener("document:keydown.escape")
+  onEscape(): void {
+    this.closeContextMenu();
   }
 }

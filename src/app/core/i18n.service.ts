@@ -63,6 +63,9 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: "Drag cards between columns to update their status.",
   },
   "dashboard.empty": { es: "Sin ofertas", en: "No offers" },
+  "dashboard.context.next": { es: "Enviar a la siguiente fase", en: "Move to next phase" },
+  "dashboard.context.rejected": { es: "Enviar a rechazada", en: "Move to rejected" },
+  "dashboard.context.delete": { es: "Eliminar oferta", en: "Delete offer" },
 
   // ---- Ofertas ----
   "offers.title": { es: "Ofertas de trabajo", en: "Job offers" },

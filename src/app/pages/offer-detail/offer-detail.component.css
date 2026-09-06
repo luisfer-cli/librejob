@@ -46,7 +46,11 @@
   color: var(--text);
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.12s, box-shadow 0.12s, transform 0.12s, background 0.12s;
+  transition:
+    border-color 0.12s,
+    box-shadow 0.12s,
+    transform 0.12s,
+    background 0.12s;
 }
 
 .action-tile:hover:not(:disabled) {
@@ -218,58 +222,6 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
-  }
-}
-
-/* ===== Toast ===== */
-.toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 11px 18px;
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--on-ink);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  font-size: 13px;
-  font-weight: 500;
-  max-width: calc(100vw - 48px);
-  animation: toast-in 0.2s ease;
-}
-
-.toast .nf {
-  font-size: 15px;
-}
-
-.toast.leaving {
-  animation: toast-out 0.16s ease forwards;
-}
-
-@keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, 10px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-@keyframes toast-out {
-  from {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  to {
-    opacity: 0;
-    transform: translate(-50%, 10px);
   }
 }
 

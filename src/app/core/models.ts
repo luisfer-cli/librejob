@@ -195,18 +195,55 @@ export interface AiProviderInfo {
 }
 
 export const AI_PROVIDERS: AiProviderInfo[] = [
-  { key: "openrouter", name: "OpenRouter", baseUrl: "https://openrouter.ai/api/v1" },
+  {
+    key: "openrouter",
+    name: "OpenRouter",
+    baseUrl: "https://openrouter.ai/api/v1",
+  },
   { key: "openai", name: "OpenAI", baseUrl: "https://api.openai.com/v1" },
   { key: "groq", name: "Groq", baseUrl: "https://api.groq.com/openai/v1" },
-  { key: "together", name: "Together AI", baseUrl: "https://api.together.xyz/v1" },
+  {
+    key: "together",
+    name: "Together AI",
+    baseUrl: "https://api.together.xyz/v1",
+  },
   { key: "mistral", name: "Mistral AI", baseUrl: "https://api.mistral.ai/v1" },
   { key: "deepseek", name: "DeepSeek", baseUrl: "https://api.deepseek.com/v1" },
-  { key: "perplexity", name: "Perplexity", baseUrl: "https://api.perplexity.ai" },
-  { key: "ollama", name: "Ollama (local)", baseUrl: "http://localhost:11434/v1", local: true },
-  { key: "lmstudio", name: "LM Studio (local)", baseUrl: "http://localhost:1234/v1", local: true },
-  { key: "localai", name: "LocalAI (local)", baseUrl: "http://localhost:8080/v1", local: true },
-  { key: "vllm", name: "vLLM (local)", baseUrl: "http://localhost:8000/v1", local: true },
-  { key: "llamacpp", name: "llama.cpp (local)", baseUrl: "http://localhost:8080/v1", local: true },
+  {
+    key: "perplexity",
+    name: "Perplexity",
+    baseUrl: "https://api.perplexity.ai",
+  },
+  {
+    key: "ollama",
+    name: "Ollama (local)",
+    baseUrl: "http://localhost:11434/v1",
+    local: true,
+  },
+  {
+    key: "lmstudio",
+    name: "LM Studio (local)",
+    baseUrl: "http://localhost:1234/v1",
+    local: true,
+  },
+  {
+    key: "localai",
+    name: "LocalAI (local)",
+    baseUrl: "http://localhost:8080/v1",
+    local: true,
+  },
+  {
+    key: "vllm",
+    name: "vLLM (local)",
+    baseUrl: "http://localhost:8000/v1",
+    local: true,
+  },
+  {
+    key: "llamacpp",
+    name: "llama.cpp (local)",
+    baseUrl: "http://localhost:8080/v1",
+    local: true,
+  },
   { key: "custom", name: "Personalizado", baseUrl: "" },
 ];
 
@@ -218,12 +255,58 @@ export function isLocalProvider(key: string): boolean {
   return AI_PROVIDERS.find((p) => p.key === key)?.local ?? false;
 }
 
+export type CvStyleVariant =
+  | "classic"
+  | "compact"
+  | "executive"
+  | "modern"
+  | "academic";
+
+export interface CvStyleInfo {
+  key: CvStyleVariant;
+  labelKey: string;
+  descriptionKey: string;
+}
+
+export const CV_STYLE_VARIANTS: CvStyleInfo[] = [
+  {
+    key: "classic",
+    labelKey: "cvstyle.classic",
+    descriptionKey: "cvstyle.classicDesc",
+  },
+  {
+    key: "compact",
+    labelKey: "cvstyle.compact",
+    descriptionKey: "cvstyle.compactDesc",
+  },
+  {
+    key: "executive",
+    labelKey: "cvstyle.executive",
+    descriptionKey: "cvstyle.executiveDesc",
+  },
+  {
+    key: "modern",
+    labelKey: "cvstyle.modern",
+    descriptionKey: "cvstyle.modernDesc",
+  },
+  {
+    key: "academic",
+    labelKey: "cvstyle.academic",
+    descriptionKey: "cvstyle.academicDesc",
+  },
+];
+
+export function isCvStyleVariant(value: string): value is CvStyleVariant {
+  return CV_STYLE_VARIANTS.some((s) => s.key === value);
+}
+
 export interface AppSettings {
   provider: string;
   baseUrl: string;
   apiKey: string;
   model: string;
   theme: "light" | "dark";
+  cvStyle: CvStyleVariant;
 }
 
 export type SidebarMode = "expanded" | "collapsed" | "hidden";

@@ -71,7 +71,9 @@
   color: var(--sidebar-text);
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
 
 .collapse-btn:hover {
@@ -119,7 +121,9 @@ nav a {
   font-weight: 500;
   font-size: 13px;
   white-space: nowrap;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
 
 nav a:hover {
@@ -166,7 +170,9 @@ nav a.active {
   font-size: 12.5px;
   font-family: inherit;
   white-space: nowrap;
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
 
 .theme-toggle:hover {
@@ -178,7 +184,6 @@ nav a.active {
   font-size: 14px;
 }
 
-/* ===== Modo colapsado (rail de iconos) ===== */
 .sidebar.collapsed .sidebar-header {
   justify-content: center;
 }
@@ -211,7 +216,6 @@ nav a.active {
   padding: 8px 0;
 }
 
-/* ===== Contenido ===== */
 .content {
   flex: 1;
   overflow-y: auto;
@@ -223,7 +227,6 @@ nav a.active {
   max-width: none;
 }
 
-/* ===== Botón flotante para reabrir el menú ===== */
 .floating-menu {
   position: fixed;
   top: 12px;
@@ -240,7 +243,6 @@ nav a.active {
   cursor: pointer;
   box-shadow: var(--shadow-lg);
   font-family: inherit;
-  transition: border-color 0.12s;
 }
 
 .floating-menu .nf {
@@ -249,4 +251,66 @@ nav a.active {
 
 .floating-menu:hover {
   border-color: var(--text);
+}
+
+.welcome-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.welcome-card {
+  width: min(520px, 100%);
+  padding: 24px;
+  text-align: center;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+}
+
+.welcome-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.welcome-icon {
+  background: var(--ink);
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  margin: 18px auto 14px;
+  border-radius: 16px;
+  color: var(--on-ink);
+  font-size: 28px;
+}
+
+.welcome-eyebrow,
+.welcome-text {
+  color: var(--text-muted);
+}
+
+.welcome-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.welcome-card h2 {
+  margin: 0 0 10px;
+}
+
+.welcome-text {
+  margin: 0 auto;
+}
+
+.welcome-actions {
+  flex-wrap: wrap;
+  margin-top: 24px;
 }

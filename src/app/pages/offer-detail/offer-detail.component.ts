@@ -16,7 +16,6 @@ import { CvPreviewComponent } from "../../components/cv-preview/cv-preview.compo
 import type {
   AtsAnalysis,
   CoverLetter,
-  CvData,
   GeneratedCv,
   JobOffer,
   JobOfferStructured,
@@ -24,7 +23,13 @@ import type {
   TechnicalTest,
 } from "../../core/models";
 
-const STATUSES: OfferStatus[] = ["guardada", "aplicada", "entrevista", "oferta", "rechazada"];
+const STATUSES: OfferStatus[] = [
+  "guardada",
+  "aplicada",
+  "entrevista",
+  "oferta",
+  "rechazada",
+];
 
 const LANGUAGES: { value: string; labelKey: string }[] = [
   { value: "", labelKey: "lang.auto" },
@@ -75,7 +80,13 @@ interface CvEntry {
 
 @Component({
   selector: "app-offer-detail",
-  imports: [CommonModule, FormsModule, RouterLink, CvPreviewComponent, TranslatePipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterLink,
+    CvPreviewComponent,
+    TranslatePipe,
+  ],
   templateUrl: "./offer-detail.component.html",
   styleUrl: "./offer-detail.component.css",
 })
@@ -153,15 +164,23 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
       this.structured = this.parseStructured(this.offer.structured);
       this.notesDraft = this.offer.notes;
       const rows = await this.db.listGeneratedCvs(id);
-      this.cvs = rows.map((r) => ({ id: r.id, cv: this.parseCv(r.structured), createdAt: r.createdAt }));
+      this.cvs = rows.map((r) => ({
+        id: r.id,
+        cv: this.parseCv(r.structured),
+        createdAt: r.createdAt,
+      }));
       const letters = await this.db.listCoverLetters(id);
       if (letters.length) {
         this.letterId = letters[0].id;
-        this.letter = JSON.parse(letters[0].content);
+        this.letter = this.parseCoverLetter(letters[0].content);
       }
       const tests = await this.db.listTechnicalTests(id);
       if (tests.length) {
-        this.test = { ...this.parseTechnicalTest(tests[0].content), id: tests[0].id, jobOfferId: id };
+        this.test = {
+          ...this.parseTechnicalTest(tests[0].content),
+          id: tests[0].id,
+          jobOfferId: id,
+        };
       }
       this.ats = await this.db.getAtsAnalysis(id);
     }
@@ -202,8 +221,39 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
     }
   }
 
+  private emptyCv(): GeneratedCv {
+    return {
+      fullName: "",
+      jobTitle: "",
+      email: "",
+      phone: "",
+      location: "",
+      linkedin: "",
+      website: "",
+      summary: "",
+      experiences: [],
+      education: [],
+      skills: [],
+      languages: [],
+      certifications: [],
+      projects: [],
+    };
+  }
+
   private parseCv(raw: string): GeneratedCv {
-    return JSON.parse(raw || "{}");
+    try {
+      return { ...this.emptyCv(), ...JSON.parse(raw || "{}") };
+    } catch {
+      return this.emptyCv();
+    }
+  }
+
+  private parseCoverLetter(raw: string): CoverLetter {
+    try {
+      return JSON.parse(raw || "{}");
+    } catch {
+      return { subject: "", greeting: "", body: "", closing: "" };
+    }
   }
 
   private parseTechnicalTest(content: string): TechnicalTest {
@@ -251,7 +301,8 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
   }
 
   async changeStatus(): Promise<void> {
-    if (this.offer) await this.db.updateOfferStatus(this.offer.id, this.offer.status);
+    if (this.offer)
+      await this.db.updateOfferStatus(this.offer.id, this.offer.status);
   }
 
   async saveNotes(): Promise<void> {
@@ -314,9 +365,16 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
     this.clearMessages();
     try {
       const cvData = await this.db.getCvData();
-      const result = await this.ai.generateCv(cvData, this.structured, this.cvLanguage);
+      const result = await this.ai.generateCv(
+        cvData,
+        this.structured,
+        this.cvLanguage,
+      );
       result.language = this.cvLanguage;
-      const id = await this.db.addGeneratedCv(this.offer!.id, JSON.stringify(result));
+      const id = await this.db.addGeneratedCv(
+        this.offer!.id,
+        JSON.stringify(result),
+      );
       this.cvs = [{ id, cv: result, createdAt: "" }, ...this.cvs];
       this.showCvModal = false;
       this.previewCv = result;
@@ -338,7 +396,10 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
 
   cvMeta(entry: CvEntry): string {
     const parts: string[] = [];
-    if (entry.cv.language) parts.push(this.i18n.t(LANGUAGE_LABEL_KEYS[entry.cv.language] ?? "lang.es"));
+    if (entry.cv.language)
+      parts.push(
+        this.i18n.t(LANGUAGE_LABEL_KEYS[entry.cv.language] ?? "lang.es"),
+      );
     if (entry.createdAt) parts.push(this.formatDate(entry.createdAt));
     return parts.join(" · ");
   }
@@ -350,7 +411,7 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
 
   startEditCv(entry: CvEntry): void {
     this.editCvId = entry.id;
-    this.cvDraft = JSON.parse(JSON.stringify(entry.cv)) as GeneratedCv;
+    this.cvDraft = structuredClone(entry.cv);
     this.showCvEdit = true;
   }
 
@@ -419,9 +480,16 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
     this.clearMessages();
     try {
       const cvData = await this.db.getCvData();
-      const result = await this.ai.generateCoverLetter(cvData, this.structured, this.letterLanguage);
+      const result = await this.ai.generateCoverLetter(
+        cvData,
+        this.structured,
+        this.letterLanguage,
+      );
       this.letter = result;
-      this.letterId = await this.db.addCoverLetter(this.offer!.id, JSON.stringify(result));
+      this.letterId = await this.db.addCoverLetter(
+        this.offer!.id,
+        JSON.stringify(result),
+      );
       this.editingLetter = false;
       this.showLetterModal = false;
     } catch (e) {
@@ -449,7 +517,10 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
     this.letterDraft = null;
     if (this.letterId != null) {
       try {
-        await this.db.updateCoverLetter(this.letterId, JSON.stringify(this.letter));
+        await this.db.updateCoverLetter(
+          this.letterId,
+          JSON.stringify(this.letter),
+        );
       } catch (e) {
         this.error = String(e);
       }
@@ -466,7 +537,11 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
         difficulty: this.difficulty,
         estimatedTime: this.estimatedTime,
       });
-      const id = await this.db.addTechnicalTest(this.offer!.id, result.title, JSON.stringify(result));
+      const id = await this.db.addTechnicalTest(
+        this.offer!.id,
+        result.title,
+        JSON.stringify(result),
+      );
       this.test = { ...result, id, jobOfferId: this.offer!.id };
       this.showTestModal = false;
     } catch (e) {
@@ -504,7 +579,10 @@ export class OfferDetailComponent implements OnInit, OnDestroy {
         filters: [{ name: "PDF", extensions: ["pdf"] }],
       });
       if (!path) return;
-      const bytes = await this.pdf.buildCv(cv);
+      const bytes = await this.pdf.buildCv(
+        cv,
+        this.settings.settings().cvStyle,
+      );
       await invoke<string>("save_file", { path, bytes });
       this.showToast(this.i18n.t("offer.cvExported", { path }));
     } catch (e) {

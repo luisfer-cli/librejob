@@ -6,29 +6,150 @@
 <section class="card">
   <div class="section-head">
     <h2>{{ "settings.aiProvider" | t }}</h2>
-    <span class="status-pill" [class.configured]="isConfigured" [class.unconfigured]="!isConfigured">
-      <span class="nf" [class.nf-check-circle]="isConfigured" [class.nf-close-circle]="!isConfigured"></span>
-      {{ isConfigured ? ("settings.configured" | t) : ("settings.unconfigured" | t) }}
+    <span
+      class="status-pill"
+      [class.configured]="isConfigured"
+      [class.unconfigured]="!isConfigured"
+    >
+      <span
+        class="nf"
+        [class.nf-check-circle]="isConfigured"
+        [class.nf-close-circle]="!isConfigured"
+      ></span>
+      {{
+        isConfigured
+          ? ("settings.configured" | t)
+          : ("settings.unconfigured" | t)
+      }}
     </span>
   </div>
 
   <p class="muted">
     <ng-container *ngIf="isConfigured">
       <strong>{{ currentProviderName }}</strong>
-      <ng-container *ngIf="settings.settings().model"> · {{ settings.settings().model }}</ng-container>
+      <ng-container *ngIf="settings.settings().model">
+        · {{ settings.settings().model }}</ng-container
+      >
     </ng-container>
-    <ng-container *ngIf="!isConfigured">{{ "settings.needsKey" | t }}</ng-container>
+    <ng-container *ngIf="!isConfigured">{{
+      "settings.needsKey" | t
+    }}</ng-container>
   </p>
-
-  <div *ngIf="saved" class="alert alert-success">{{ "settings.saved" | t }}</div>
 
   <div class="actions">
     <button class="btn btn-primary" (click)="openWizard()">
       <span class="nf nf-cog"></span>
-      {{ isConfigured ? ("settings.changeConfig" | t) : ("settings.configureAi" | t) }}
+      {{
+        isConfigured
+          ? ("settings.changeConfig" | t)
+          : ("settings.configureAi" | t)
+      }}
     </button>
   </div>
 </section>
+
+<!-- Estilo de CV -->
+<section class="card">
+  <div class="section-head">
+    <div>
+      <h2>{{ "settings.cvStyle" | t }}</h2>
+      <p class="muted">{{ "settings.cvStyleDesc" | t }}</p>
+    </div>
+    <span class="status-pill configured">{{ currentCvStyleLabel }}</span>
+  </div>
+  <div class="actions">
+    <button class="btn btn-primary" (click)="openCvStyleModal()">
+      <span class="nf nf-file"></span>
+      {{ "settings.cvStyleButton" | t }}
+    </button>
+  </div>
+</section>
+
+<!-- Modal: Estilo de CV -->
+<div
+  class="modal-backdrop"
+  *ngIf="showCvStyleModal"
+  (mousedown)="onBackdrop($event)"
+>
+  <div
+    class="modal style-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cv-style-title"
+  >
+    <div class="modal-head">
+      <span class="modal-icon nf nf-file"></span>
+      <h2 id="cv-style-title">{{ "settings.cvStyleModalTitle" | t }}</h2>
+      <button
+        class="btn btn-icon btn-ghost"
+        (click)="closeCvStyleModal()"
+        [attr.aria-label]="'common.close' | t"
+      >
+        <span class="nf nf-close"></span>
+      </button>
+    </div>
+
+    <div class="modal-body style-modal-body">
+      <div class="style-list">
+        <button
+          class="style-tile"
+          *ngFor="let style of cvStyles"
+          [class.selected]="selectedCvStyle === style.key"
+          (click)="selectCvStyle(style.key)"
+        >
+          <span class="style-name">{{ style.labelKey | t }}</span>
+          <span class="style-desc">{{ style.descriptionKey | t }}</span>
+        </button>
+      </div>
+
+      <div class="cv-preview-shell">
+        <div class="cv-preview-page" [ngClass]="'preview-' + selectedCvStyle">
+          <div class="preview-name">María García</div>
+          <div class="preview-role">Frontend Developer</div>
+          <div class="preview-contact">
+            maria@email.com | Madrid | LinkedIn | Portfolio
+          </div>
+          <div class="preview-rule"></div>
+
+          <div class="preview-section">{{ "cvpreview.summary" | t }}</div>
+          <div class="preview-rule thin"></div>
+          <p>
+            Desarrolladora con experiencia creando interfaces accesibles,
+            mantenibles y orientadas a producto.
+          </p>
+
+          <div class="preview-section">{{ "cvedit.experience" | t }}</div>
+          <div class="preview-rule thin"></div>
+          <p>
+            <strong>Frontend Developer — Acme</strong>
+            <span>2021 – Actualidad</span>
+          </p>
+          <ul>
+            <li>Optimización de flujos críticos y mejora de rendimiento.</li>
+            <li>Colaboración con producto, diseño y backend.</li>
+          </ul>
+
+          <div class="preview-section">{{ "cvedit.skills" | t }}</div>
+          <div class="preview-rule thin"></div>
+          <p>Angular, TypeScript, Accesibilidad, Testing, UX</p>
+        </div>
+        <p class="muted preview-caption">
+          {{ "settings.cvStylePreviewHint" | t }}:
+          <strong>{{ selectedCvStyleInfo.labelKey | t }}</strong>
+        </p>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <button class="btn" (click)="closeCvStyleModal()">
+        {{ "common.cancel" | t }}
+      </button>
+      <button class="btn btn-primary" (click)="saveCvStyle()">
+        <span class="nf nf-save"></span> {{ "settings.cvStyleSave" | t }}
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- Idioma -->
 <section class="card">
@@ -55,13 +176,17 @@
 <section class="card">
   <h2>{{ "settings.appearance" | t }}</h2>
   <div class="actions">
-    <button class="btn" (click)="settings.toggleTheme()">
+    <button class="btn" (click)="toggleTheme()">
       <span
         class="nf"
         [class.nf-sun]="settings.settings().theme === 'dark'"
         [class.nf-moon]="settings.settings().theme !== 'dark'"
       ></span>
-      {{ settings.settings().theme === "dark" ? ("theme.light" | t) : ("theme.dark" | t) }}
+      {{
+        settings.settings().theme === "dark"
+          ? ("theme.light" | t)
+          : ("theme.dark" | t)
+      }}
     </button>
   </div>
 </section>
@@ -77,7 +202,9 @@
     >
       <span *ngIf="updater.checking()" class="spinner"></span>
       <span *ngIf="!updater.checking()" class="nf nf-download"></span>
-      {{ updater.checking() ? ("updates.checking" | t) : ("updates.check" | t) }}
+      {{
+        updater.checking() ? ("updates.checking" | t) : ("updates.check" | t)
+      }}
     </button>
     <button
       *ngIf="updater.status() === 'available'"
@@ -93,11 +220,20 @@
 
 <!-- Modal: Wizard de configuración -->
 <div class="modal-backdrop" *ngIf="showWizard" (mousedown)="onBackdrop($event)">
-  <div class="modal modal-wide" role="dialog" aria-modal="true" aria-labelledby="wizard-title">
+  <div
+    class="modal modal-wide"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="wizard-title"
+  >
     <div class="modal-head">
       <span class="modal-icon nf nf-cog"></span>
       <h2 id="wizard-title">{{ "settings.wizard.title" | t }}</h2>
-      <button class="btn btn-icon btn-ghost" (click)="closeWizard()" aria-label="Cerrar">
+      <button
+        class="btn btn-icon btn-ghost"
+        (click)="closeWizard()"
+        aria-label="Cerrar"
+      >
         <span class="nf nf-close"></span>
       </button>
     </div>
@@ -143,14 +279,18 @@
         <p class="muted">{{ "settings.wizard.enterCreds" | t }}</p>
         <div class="field">
           <label>{{ "settings.wizard.baseUrl" | t }}</label>
-          <input [(ngModel)]="baseUrl" placeholder="https://api.openai.com/v1" />
+          <input
+            [(ngModel)]="baseUrl"
+            placeholder="https://api.openai.com/v1"
+          />
         </div>
         <div class="field" *ngIf="!isLocalProvider">
           <label>{{ "settings.wizard.apiKey" | t }}</label>
           <input type="password" [(ngModel)]="apiKey" placeholder="sk-..." />
         </div>
         <p *ngIf="isLocalProvider" class="muted hint">
-          <span class="nf nf-information"></span> {{ "settings.wizard.localNoKey" | t }}
+          <span class="nf nf-information"></span>
+          {{ "settings.wizard.localNoKey" | t }}
         </p>
       </ng-container>
 
@@ -165,10 +305,18 @@
               list="modelOptions"
               [placeholder]="'settings.wizard.modelPlaceholder' | t"
             />
-            <button class="btn" (click)="loadModels()" [disabled]="loadingModels">
+            <button
+              class="btn"
+              (click)="loadModels()"
+              [disabled]="loadingModels"
+            >
               <span *ngIf="loadingModels" class="spinner"></span>
               <span *ngIf="!loadingModels" class="nf nf-download"></span>
-              {{ loadingModels ? ("common.loading" | t) : ("settings.wizard.loadModelsBtn" | t) }}
+              {{
+                loadingModels
+                  ? ("common.loading" | t)
+                  : ("settings.wizard.loadModelsBtn" | t)
+              }}
             </button>
           </div>
           <datalist id="modelOptions">
@@ -188,10 +336,14 @@
           <button class="btn" (click)="testConnection()" [disabled]="testing">
             <span *ngIf="testing" class="spinner"></span>
             <span *ngIf="!testing" class="nf nf-send"></span>
-            {{ testing ? ("common.testing" | t) : ("settings.wizard.test" | t) }}
+            {{
+              testing ? ("common.testing" | t) : ("settings.wizard.test" | t)
+            }}
           </button>
         </div>
-        <div *ngIf="testResult" class="alert alert-success">{{ testResult }}</div>
+        <div *ngIf="testResult" class="alert alert-success">
+          {{ testResult }}
+        </div>
         <div *ngIf="testError" class="alert alert-error">{{ testError }}</div>
       </ng-container>
     </div>
@@ -200,7 +352,11 @@
       <button class="btn" (click)="prev()" [disabled]="step === 0">
         <span class="nf nf-chevron-left"></span> {{ "common.back" | t }}
       </button>
-      <button *ngIf="step < steps.length - 1" class="btn btn-primary" (click)="next()">
+      <button
+        *ngIf="step < steps.length - 1"
+        class="btn btn-primary"
+        (click)="next()"
+      >
         {{ "common.next" | t }} <span class="nf nf-chevron-right"></span>
       </button>
       <button
@@ -215,4 +371,9 @@
       </button>
     </div>
   </div>
+</div>
+
+<div class="toast" *ngIf="toast" [class.leaving]="toastLeaving" role="status">
+  <span class="nf nf-check-circle"></span>
+  <span>{{ toast }}</span>
 </div>

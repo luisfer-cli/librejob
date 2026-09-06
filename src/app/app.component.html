@@ -11,7 +11,11 @@
     <button
       class="collapse-btn"
       (click)="settings.toggleSidebarCollapse()"
-      [title]="settings.sidebarMode() === 'collapsed' ? ('nav.expand' | t) : ('nav.collapse' | t)"
+      [title]="
+        settings.sidebarMode() === 'collapsed'
+          ? ('nav.expand' | t)
+          : ('nav.collapse' | t)
+      "
     >
       <span
         class="nf"
@@ -24,7 +28,11 @@
   <nav>
     <div class="nav-section">
       <span class="nav-label">{{ "nav.principal" | t }}</span>
-      <a routerLink="/dashboard" routerLinkActive="active" [title]="'nav.dashboard' | t">
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [title]="'nav.dashboard' | t"
+      >
         <span class="icon nf nf-dashboard"></span>
         <span class="nav-text">{{ "nav.dashboard" | t }}</span>
       </a>
@@ -36,11 +44,19 @@
         <span class="icon nf nf-account"></span>
         <span class="nav-text">{{ "nav.cv" | t }}</span>
       </a>
-      <a routerLink="/offers" routerLinkActive="active" [title]="'nav.offers' | t">
+      <a
+        routerLink="/offers"
+        routerLinkActive="active"
+        [title]="'nav.offers' | t"
+      >
         <span class="icon nf nf-briefcase"></span>
         <span class="nav-text">{{ "nav.offers" | t }}</span>
       </a>
-      <a routerLink="/tests" routerLinkActive="active" [title]="'nav.tests' | t">
+      <a
+        routerLink="/tests"
+        routerLinkActive="active"
+        [title]="'nav.tests' | t"
+      >
         <span class="icon nf nf-flask"></span>
         <span class="nav-text">{{ "nav.tests" | t }}</span>
       </a>
@@ -48,7 +64,11 @@
 
     <div class="nav-section">
       <span class="nav-label">{{ "nav.system" | t }}</span>
-      <a routerLink="/settings" routerLinkActive="active" [title]="'nav.settings' | t">
+      <a
+        routerLink="/settings"
+        routerLinkActive="active"
+        [title]="'nav.settings' | t"
+      >
         <span class="icon nf nf-cog"></span>
         <span class="nav-text">{{ "nav.settings" | t }}</span>
       </a>
@@ -56,14 +76,22 @@
   </nav>
 
   <div class="sidebar-footer">
-    <button class="theme-toggle" (click)="settings.toggleTheme()" [title]="'theme.toggle' | t">
+    <button
+      class="theme-toggle"
+      (click)="settings.toggleTheme()"
+      [title]="'theme.toggle' | t"
+    >
       <span
         class="nf"
         [class.nf-sun]="settings.settings().theme === 'dark'"
         [class.nf-moon]="settings.settings().theme !== 'dark'"
       ></span>
       <span class="theme-text">
-        {{ settings.settings().theme === "dark" ? ("theme.light" | t) : ("theme.dark" | t) }}
+        {{
+          settings.settings().theme === "dark"
+            ? ("theme.light" | t)
+            : ("theme.dark" | t)
+        }}
       </span>
     </button>
   </div>
@@ -85,3 +113,58 @@
 </main>
 
 <app-confirm-dialog />
+
+<div
+  class="welcome-backdrop"
+  *ngIf="showWelcomeTour && welcomeSteps[welcomeStep] as step"
+>
+  <section
+    class="welcome-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="welcome-title"
+  >
+    <div class="welcome-icon">
+      <span class="nf" [ngClass]="step.icon"></span>
+    </div>
+
+    <p class="welcome-eyebrow">{{ "welcome.eyebrow" | t }}</p>
+    <h2 id="welcome-title">{{ step.title | t }}</h2>
+    <p class="welcome-text">{{ step.text | t }}</p>
+
+    <div class="welcome-actions">
+      <button class="btn" *ngIf="welcomeStep > 0" (click)="prevWelcomeStep()">
+        {{ "common.back" | t }}
+      </button>
+      <button
+        class="btn btn-ghost"
+        *ngIf="!isWelcomeLastStep"
+        (click)="skipWelcomeTour()"
+      >
+        {{ "welcome.skip" | t }}
+      </button>
+      <button
+        class="btn btn-primary"
+        *ngIf="!isWelcomeLastStep"
+        (click)="nextWelcomeStep()"
+      >
+        {{ "common.next" | t }}
+      </button>
+      <button
+        class="btn"
+        *ngIf="isWelcomeLastStep"
+        (click)="finishWelcomeTour(false)"
+      >
+        {{ "welcome.noApiKey" | t }}
+      </button>
+      <button
+        class="btn btn-primary"
+        *ngIf="isWelcomeLastStep"
+        (click)="finishWelcomeTour(true)"
+      >
+        <span class="nf nf-key"></span>
+        {{ "welcome.addApiKey" | t }}
+      </button>
+    </div>
+  </section>
+</div>

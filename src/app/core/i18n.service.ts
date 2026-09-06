@@ -16,7 +16,10 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "theme.light": { es: "Modo claro", en: "Light mode" },
   "theme.dark": { es: "Modo oscuro", en: "Dark mode" },
   "theme.toggle": { es: "Cambiar tema", en: "Change theme" },
-  "nav.showMenu": { es: "Mostrar menú (Ctrl+Shift+B)", en: "Show menu (Ctrl+Shift+B)" },
+  "nav.showMenu": {
+    es: "Mostrar menú (Ctrl+Shift+B)",
+    en: "Show menu (Ctrl+Shift+B)",
+  },
   "nav.collapse": { es: "Colapsar (Ctrl+B)", en: "Collapse (Ctrl+B)" },
   "nav.expand": { es: "Expandir (Ctrl+B)", en: "Expand (Ctrl+B)" },
 
@@ -63,8 +66,14 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: "Drag cards between columns to update their status.",
   },
   "dashboard.empty": { es: "Sin ofertas", en: "No offers" },
-  "dashboard.context.next": { es: "Enviar a la siguiente fase", en: "Move to next phase" },
-  "dashboard.context.rejected": { es: "Enviar a rechazada", en: "Move to rejected" },
+  "dashboard.context.next": {
+    es: "Enviar a la siguiente fase",
+    en: "Move to next phase",
+  },
+  "dashboard.context.rejected": {
+    es: "Enviar a rechazada",
+    en: "Move to rejected",
+  },
   "dashboard.context.delete": { es: "Eliminar oferta", en: "Delete offer" },
 
   // ---- Ofertas ----
@@ -89,7 +98,10 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "offers.field.seniority": { es: "Seniority", en: "Seniority" },
   "offers.field.url": { es: "URL de aplicación", en: "Application URL" },
   "offers.field.requirements": { es: "Requisitos", en: "Requirements" },
-  "offers.field.responsibilities": { es: "Responsabilidades", en: "Responsibilities" },
+  "offers.field.responsibilities": {
+    es: "Responsabilidades",
+    en: "Responsibilities",
+  },
   "offers.empty": {
     es: "Aún no hay ofertas. Pega tu primera oferta para empezar.",
     en: "No offers yet. Paste your first offer to get started.",
@@ -101,7 +113,10 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     es: "Configura tu proveedor de IA y API key en Ajustes primero.",
     en: "Configure your AI provider and API key in Settings first.",
   },
-  "error.pasteFirst": { es: "Pega el texto de la oferta primero.", en: "Paste the offer text first." },
+  "error.pasteFirst": {
+    es: "Pega el texto de la oferta primero.",
+    en: "Paste the offer text first.",
+  },
   "error.titleOrCompany": {
     es: "Introduce al menos el título o la empresa.",
     en: "Enter at least the title or the company.",
@@ -113,9 +128,15 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: "Delete this offer and everything generated for it (CVs, letters and tests)?",
   },
   "confirm.deleteOfferTitle": { es: "Eliminar oferta", en: "Delete offer" },
-  "confirm.deleteCv": { es: "¿Eliminar este CV generado?", en: "Delete this generated CV?" },
+  "confirm.deleteCv": {
+    es: "¿Eliminar este CV generado?",
+    en: "Delete this generated CV?",
+  },
   "confirm.deleteCvTitle": { es: "Eliminar CV", en: "Delete CV" },
-  "confirm.deleteTest": { es: "¿Eliminar esta prueba técnica?", en: "Delete this technical test?" },
+  "confirm.deleteTest": {
+    es: "¿Eliminar esta prueba técnica?",
+    en: "Delete this technical test?",
+  },
   "confirm.deleteTestTitle": { es: "Eliminar prueba", en: "Delete test" },
   "confirm.deleteTitle": { es: "Eliminar", en: "Delete" },
   "confirm.deleteItem": { es: "¿Eliminar {item}?", en: "Delete {item}?" },
@@ -135,14 +156,29 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     es: "Genera contenido adaptado a esta oferta.",
     en: "Generate content tailored to this offer.",
   },
-  "offer.cvTile": { es: "Generar CV especializado", en: "Generate tailored CV" },
-  "offer.cvTileDesc": { es: "Adapta tu currículum a esta oferta", en: "Tailor your resume to this offer" },
+  "offer.cvTile": {
+    es: "Generar CV especializado",
+    en: "Generate tailored CV",
+  },
+  "offer.cvTileDesc": {
+    es: "Adapta tu currículum a esta oferta",
+    en: "Tailor your resume to this offer",
+  },
   "offer.letterTile": { es: "Carta de presentación", en: "Cover letter" },
-  "offer.letterTileDesc": { es: "Redacta una carta personalizada", en: "Write a personalized letter" },
+  "offer.letterTileDesc": {
+    es: "Redacta una carta personalizada",
+    en: "Write a personalized letter",
+  },
   "offer.testTile": { es: "Prueba técnica", en: "Technical test" },
-  "offer.testTileDesc": { es: "Genera una prueba de práctica", en: "Generate a practice test" },
+  "offer.testTileDesc": {
+    es: "Genera una prueba de práctica",
+    en: "Generate a practice test",
+  },
   "offer.atsTile": { es: "Análisis ATS", en: "ATS analysis" },
-  "offer.atsTileDesc": { es: "Evalúa tu encaje con la oferta", en: "Assess your fit for the offer" },
+  "offer.atsTileDesc": {
+    es: "Evalúa tu encaje con la oferta",
+    en: "Assess your fit for the offer",
+  },
   "offer.details": { es: "Detalles de la oferta", en: "Offer details" },
   "offer.type": { es: "Tipo:", en: "Type:" },
   "offer.url": { es: "URL:", en: "URL:" },
@@ -171,23 +207,38 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "offer.cvCount": { es: "CV(s)", en: "CV(s)" },
   "offer.exportPdf": { es: "Exportar PDF", en: "Export PDF" },
   "offer.letter.subject": { es: "Asunto:", en: "Subject:" },
-  "offer.takeTest": { es: "Hacer prueba interactiva", en: "Take interactive test" },
+  "offer.takeTest": {
+    es: "Hacer prueba interactiva",
+    en: "Take interactive test",
+  },
   "offer.estTime": { es: "Tiempo estimado:", en: "Estimated time:" },
   "offer.questions": { es: "pregunta(s)", en: "question(s)" },
-  "offer.cvExported": { es: "CV exportado correctamente en {path}", en: "CV exported successfully to {path}" },
-  "offer.letterExported": { es: "Carta exportada correctamente en {path}", en: "Letter exported successfully to {path}" },
+  "offer.cvExported": {
+    es: "CV exportado correctamente en {path}",
+    en: "CV exported successfully to {path}",
+  },
+  "offer.letterExported": {
+    es: "Carta exportada correctamente en {path}",
+    en: "Letter exported successfully to {path}",
+  },
   "offer.cvSaved": { es: "CV guardado.", en: "CV saved." },
 
   // ---- Busy ----
   "busy.cv": { es: "Generando CV...", en: "Generating CV..." },
   "busy.letter": { es: "Generando carta...", en: "Generating letter..." },
-  "busy.test": { es: "Generando prueba técnica...", en: "Generating technical test..." },
+  "busy.test": {
+    es: "Generando prueba técnica...",
+    en: "Generating technical test...",
+  },
   "busy.ats": { es: "Analizando encaje ATS...", en: "Analyzing ATS fit..." },
   "busy.pdf": { es: "Generando PDF...", en: "Generating PDF..." },
   "busy.cvImport": { es: "Analizando CV...", en: "Analyzing resume..." },
 
   // ---- Modal CV (generar) ----
-  "cvmodal.title": { es: "Generar CV especializado", en: "Generate tailored CV" },
+  "cvmodal.title": {
+    es: "Generar CV especializado",
+    en: "Generate tailored CV",
+  },
   "cvmodal.desc": {
     es: "Adapta tu currículum a esta oferta eligiendo el idioma de salida.",
     en: "Tailor your resume to this offer by choosing the output language.",
@@ -228,7 +279,10 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "test.60m": { es: "60 minutos", en: "60 minutes" },
 
   // ---- Idiomas (selector de idioma del CV) ----
-  "lang.auto": { es: "Auto (idioma del perfil)", en: "Auto (profile language)" },
+  "lang.auto": {
+    es: "Auto (idioma del perfil)",
+    en: "Auto (profile language)",
+  },
   "lang.es": { es: "Español", en: "Spanish" },
   "lang.en": { es: "Inglés", en: "English" },
   "lang.fr": { es: "Francés", en: "French" },
@@ -246,11 +300,17 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "cvedit.linkedin": { es: "LinkedIn", en: "LinkedIn" },
   "cvedit.website": { es: "Sitio web", en: "Website" },
   "cvedit.summary": { es: "Resumen", en: "Summary" },
-  "cvedit.skills": { es: "Competencias (separadas por comas)", en: "Skills (comma-separated)" },
+  "cvedit.skills": {
+    es: "Competencias (separadas por comas)",
+    en: "Skills (comma-separated)",
+  },
   "cvedit.experience": { es: "Experiencia", en: "Experience" },
   "cvedit.role": { es: "Cargo", en: "Role" },
   "cvedit.company": { es: "Empresa", en: "Company" },
-  "cvedit.achievements": { es: "Logros (uno por línea)", en: "Achievements (one per line)" },
+  "cvedit.achievements": {
+    es: "Logros (uno por línea)",
+    en: "Achievements (one per line)",
+  },
   "cvedit.education": { es: "Educación", en: "Education" },
   "cvedit.degree": { es: "Título", en: "Degree" },
   "cvedit.institution": { es: "Institución", en: "Institution" },
@@ -286,7 +346,10 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     es: "Revisa los datos extraídos. Puedes editarlos antes de reemplazar tu CV actual.",
     en: "Review the extracted data. You can edit it before replacing your current resume.",
   },
-  "cvw.importConfirm": { es: "Reemplazar CV actual", en: "Replace current resume" },
+  "cvw.importConfirm": {
+    es: "Reemplazar CV actual",
+    en: "Replace current resume",
+  },
   "cvw.fullName": { es: "Nombre completo", en: "Full name" },
   "cvw.jobTitle": { es: "Título / Puesto actual", en: "Current title / role" },
   "cvw.email": { es: "Email", en: "Email" },
@@ -294,14 +357,23 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "cvw.location": { es: "Ubicación", en: "Location" },
   "cvw.linkedin": { es: "LinkedIn", en: "LinkedIn" },
   "cvw.website": { es: "Sitio web / Portfolio", en: "Website / Portfolio" },
-  "cvw.professionalSummary": { es: "Resumen profesional", en: "Professional summary" },
+  "cvw.professionalSummary": {
+    es: "Resumen profesional",
+    en: "Professional summary",
+  },
   "cvw.experienceTitle": { es: "Experiencia laboral", en: "Work experience" },
   "cvw.noRole": { es: "Sin cargo", en: "No role" },
   "cvw.noCompany": { es: "Sin empresa", en: "No company" },
   "cvw.in": { es: "en", en: "at" },
   "cvw.current": { es: "Actualidad", en: "Present" },
-  "cvw.noExperiences": { es: "Aún no has añadido experiencia.", en: "You haven't added any experience yet." },
-  "cvw.editingExperience": { es: "Editando experiencia", en: "Editing experience" },
+  "cvw.noExperiences": {
+    es: "Aún no has añadido experiencia.",
+    en: "You haven't added any experience yet.",
+  },
+  "cvw.editingExperience": {
+    es: "Editando experiencia",
+    en: "Editing experience",
+  },
   "cvw.addExperience": { es: "Añadir experiencia", en: "Add experience" },
   "cvw.company": { es: "Empresa", en: "Company" },
   "cvw.role": { es: "Cargo", en: "Role" },
@@ -309,29 +381,47 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "cvw.start": { es: "Inicio (2020-01)", en: "Start (2020-01)" },
   "cvw.end": { es: "Fin (2024-06)", en: "End (2024-06)" },
   "cvw.currentRole": { es: "Puesto actual", en: "Current position" },
-  "cvw.description": { es: "Descripción / logros", en: "Description / achievements" },
+  "cvw.description": {
+    es: "Descripción / logros",
+    en: "Description / achievements",
+  },
   "cvw.add": { es: "Añadir", en: "Add" },
   "cvw.saveChanges": { es: "Guardar cambios", en: "Save changes" },
-  "cvw.noEducation": { es: "Aún no has añadido formación.", en: "You haven't added any education yet." },
+  "cvw.noEducation": {
+    es: "Aún no has añadido formación.",
+    en: "You haven't added any education yet.",
+  },
   "cvw.editingEducation": { es: "Editando formación", en: "Editing education" },
   "cvw.addEducation": { es: "Añadir formación", en: "Add education" },
   "cvw.institution": { es: "Institución", en: "Institution" },
   "cvw.degree": { es: "Título", en: "Degree" },
   "cvw.field": { es: "Área de estudio", en: "Field of study" },
-  "cvw.noSkills": { es: "Aún no has añadido competencias.", en: "You haven't added any skills yet." },
+  "cvw.noSkills": {
+    es: "Aún no has añadido competencias.",
+    en: "You haven't added any skills yet.",
+  },
   "cvw.addSkill": { es: "Añadir competencia", en: "Add skill" },
   "cvw.skill": { es: "Competencia", en: "Skill" },
   "cvw.level": { es: "Nivel", en: "Level" },
   "cvw.category": { es: "Categoría", en: "Category" },
-  "cvw.noLanguages": { es: "Aún no has añadido idiomas.", en: "You haven't added any languages yet." },
+  "cvw.noLanguages": {
+    es: "Aún no has añadido idiomas.",
+    en: "You haven't added any languages yet.",
+  },
   "cvw.addLanguage": { es: "Añadir idioma", en: "Add language" },
   "cvw.language": { es: "Idioma", en: "Language" },
-  "cvw.noCerts": { es: "Aún no has añadido certificaciones.", en: "You haven't added any certifications yet." },
+  "cvw.noCerts": {
+    es: "Aún no has añadido certificaciones.",
+    en: "You haven't added any certifications yet.",
+  },
   "cvw.addCert": { es: "Añadir certificación", en: "Add certification" },
   "cvw.name": { es: "Nombre", en: "Name" },
   "cvw.issuer": { es: "Emisor", en: "Issuer" },
   "cvw.date": { es: "Fecha", en: "Date" },
-  "cvw.noProjects": { es: "Aún no has añadido proyectos.", en: "You haven't added any projects yet." },
+  "cvw.noProjects": {
+    es: "Aún no has añadido proyectos.",
+    en: "You haven't added any projects yet.",
+  },
   "cvw.addProject": { es: "Añadir proyecto", en: "Add project" },
   "cvw.link": { es: "Enlace", en: "Link" },
   "cvw.descriptionField": { es: "Descripción", en: "Description" },
@@ -369,9 +459,15 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: 'Write a role or topic (e.g. "Mid-level Node.js backend") and the AI will generate an interactive test with different question types.',
   },
   "tests.topic": { es: "Tema / puesto", en: "Topic / role" },
-  "tests.topicPlaceholder": { es: "Ej. Frontend React senior", en: "E.g. Senior React frontend" },
+  "tests.topicPlaceholder": {
+    es: "Ej. Frontend React senior",
+    en: "E.g. Senior React frontend",
+  },
   "tests.generate": { es: "Generar con IA", en: "Generate with AI" },
-  "tests.errTopic": { es: "Escribe el tema o puesto de la prueba.", en: "Write the topic or role of the test." },
+  "tests.errTopic": {
+    es: "Escribe el tema o puesto de la prueba.",
+    en: "Write the topic or role of the test.",
+  },
   "tests.standalone": { es: "Independiente", en: "Standalone" },
   "tests.fromOffer": { es: "De oferta", en: "From offer" },
   "tests.do": { es: "Hacer", en: "Take" },
@@ -386,8 +482,14 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "taketest.title": { es: "Prueba técnica", en: "Technical test" },
   "taketest.estTime": { es: "Tiempo estimado:", en: "Estimated time:" },
   "taketest.instructions": { es: "Instrucciones", en: "Instructions" },
-  "taketest.answered": { es: "{a} de {t} respondidas", en: "{a} of {t} answered" },
-  "taketest.correct": { es: "Aciertos: {c}/{a} ({s}%)", en: "Correct: {c}/{a} ({s}%)" },
+  "taketest.answered": {
+    es: "{a} de {t} respondidas",
+    en: "{a} of {t} answered",
+  },
+  "taketest.correct": {
+    es: "Aciertos: {c}/{a} ({s}%)",
+    en: "Correct: {c}/{a} ({s}%)",
+  },
   "taketest.review": { es: "Revisar respuesta", en: "Check answer" },
   "taketest.deepReview": { es: "Revisar en profundidad", en: "Deep review" },
   "taketest.reviewing": { es: "Revisando...", en: "Reviewing..." },
@@ -396,14 +498,61 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "taketest.incorrectLabel": { es: "Incorrecto", en: "Incorrect" },
   "taketest.hint": { es: "Pista:", en: "Hint:" },
   "taketest.answer": { es: "Respuesta:", en: "Answer:" },
-  "taketest.shortPlaceholder": { es: "Escribe tu respuesta...", en: "Write your answer..." },
-  "taketest.codePlaceholder": { es: "Escribe tu solución...", en: "Write your solution..." },
-  "taketest.finish": { es: "Terminar y ver resultados", en: "Finish and see results" },
+  "taketest.shortPlaceholder": {
+    es: "Escribe tu respuesta...",
+    en: "Write your answer...",
+  },
+  "taketest.codePlaceholder": {
+    es: "Escribe tu solución...",
+    en: "Write your solution...",
+  },
+  "taketest.finish": {
+    es: "Terminar y ver resultados",
+    en: "Finish and see results",
+  },
   "taketest.retry": { es: "Reintentar", en: "Retry" },
   "taketest.score": {
     es: "de aciertos en preguntas automáticas ({c}/{a})",
     en: "of correct answers in auto-graded questions ({c}/{a})",
   },
+
+  // ---- Bienvenida ----
+  "welcome.eyebrow": { es: "Primer inicio", en: "First launch" },
+  "welcome.step1.title": {
+    es: "Bienvenido a LibreJob",
+    en: "Welcome to LibreJob",
+  },
+  "welcome.step1.text": {
+    es: "Organiza tu búsqueda de empleo desde un solo lugar y usa IA cuando quieras acelerar tareas repetitivas.",
+    en: "Organize your job search in one place and use AI whenever you want to speed up repetitive tasks.",
+  },
+  "welcome.step2.title": {
+    es: "Prepara tu currículum base",
+    en: "Prepare your base resume",
+  },
+  "welcome.step2.text": {
+    es: "Completa tu perfil, experiencia, formación y competencias para reutilizarlas al generar CVs adaptados.",
+    en: "Fill in your profile, experience, education and skills so you can reuse them in tailored resumes.",
+  },
+  "welcome.step3.title": {
+    es: "Gestiona ofertas y pruebas",
+    en: "Manage offers and tests",
+  },
+  "welcome.step3.text": {
+    es: "Guarda ofertas, mueve cada candidatura por fases y genera cartas, análisis ATS o pruebas técnicas cuando lo necesites.",
+    en: "Save offers, move each application through stages, and generate letters, ATS analysis or technical tests when needed.",
+  },
+  "welcome.step4.title": {
+    es: "Conecta la IA o continúa sin API key",
+    en: "Connect AI or continue without an API key",
+  },
+  "welcome.step4.text": {
+    es: "Para generar contenido con IA puedes añadir una API key ahora. Si prefieres explorar la app primero, también puedes usar LibreJob sin API key y configurarla más tarde en Ajustes.",
+    en: "To generate AI content you can add an API key now. If you prefer to explore first, you can also use LibreJob without an API key and configure it later in Settings.",
+  },
+  "welcome.skip": { es: "Saltar tour", en: "Skip tour" },
+  "welcome.noApiKey": { es: "Usar sin API key", en: "Use without API key" },
+  "welcome.addApiKey": { es: "Agregar API key", en: "Add API key" },
 
   // ---- Ajustes ----
   "settings.title": { es: "Ajustes", en: "Settings" },
@@ -415,11 +564,60 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: "You need an API key to use the AI tools (generate CVs, letters, tests and ATS analysis).",
   },
   "settings.configureAi": { es: "Configurar IA", en: "Configure AI" },
-  "settings.changeConfig": { es: "Cambiar configuración", en: "Change configuration" },
-  "settings.saved": { es: "Configuración guardada correctamente.", en: "Configuration saved successfully." },
+  "settings.changeConfig": {
+    es: "Cambiar configuración",
+    en: "Change configuration",
+  },
+  "settings.saved": {
+    es: "Configuración guardada correctamente.",
+    en: "Configuration saved successfully.",
+  },
   "settings.appearance": { es: "Apariencia", en: "Appearance" },
   "settings.language": { es: "Idioma", en: "Language" },
-  "settings.wizard.title": { es: "Configurar proveedor de IA", en: "Configure AI provider" },
+  "settings.cvStyle": { es: "Estilo de currículum", en: "Resume style" },
+  "settings.cvStyleDesc": {
+    es: "Configura el diseño que se usará al exportar CVs a PDF.",
+    en: "Configure the layout used when exporting resumes to PDF.",
+  },
+  "settings.cvStyleButton": { es: "Configurar estilo", en: "Configure style" },
+  "settings.cvStyleModalTitle": {
+    es: "Estilo del currículum",
+    en: "Resume style",
+  },
+  "settings.cvStylePreviewHint": {
+    es: "Previsualización ATS-friendly",
+    en: "ATS-friendly preview",
+  },
+  "settings.cvStyleSave": { es: "Usar este estilo", en: "Use this style" },
+  "cvstyle.classic": { es: "Clásico", en: "Classic" },
+  "cvstyle.classicDesc": {
+    es: "Equilibrado, sobrio y fácil de revisar.",
+    en: "Balanced, sober and easy to review.",
+  },
+  "cvstyle.compact": { es: "Compacto", en: "Compact" },
+  "cvstyle.compactDesc": {
+    es: "Más contenido por página sin perder claridad.",
+    en: "More content per page without losing clarity.",
+  },
+  "cvstyle.executive": { es: "Ejecutivo", en: "Executive" },
+  "cvstyle.executiveDesc": {
+    es: "Márgenes amplios y jerarquía visual formal.",
+    en: "Wide margins and formal visual hierarchy.",
+  },
+  "cvstyle.modern": { es: "Moderno", en: "Modern" },
+  "cvstyle.modernDesc": {
+    es: "Limpio, actual y con separadores discretos.",
+    en: "Clean, current and with subtle separators.",
+  },
+  "cvstyle.academic": { es: "Académico", en: "Academic" },
+  "cvstyle.academicDesc": {
+    es: "Más espacio y lectura pausada para trayectorias extensas.",
+    en: "More spacing and slower reading for extensive backgrounds.",
+  },
+  "settings.wizard.title": {
+    es: "Configurar proveedor de IA",
+    en: "Configure AI provider",
+  },
   "settings.wizard.provider": { es: "Proveedor", en: "Provider" },
   "settings.wizard.credentials": { es: "Credenciales", en: "Credentials" },
   "settings.wizard.model": { es: "Modelo", en: "Model" },
@@ -444,18 +642,27 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     en: "Select or type a model...",
   },
   "settings.wizard.loadModelsBtn": { es: "Cargar modelos", en: "Load models" },
-  "settings.wizard.modelsLoaded": { es: "Se cargaron {n} modelos.", en: "{n} models loaded." },
+  "settings.wizard.modelsLoaded": {
+    es: "Se cargaron {n} modelos.",
+    en: "{n} models loaded.",
+  },
   "settings.wizard.verifyDesc": {
     es: "Comprueba que todo funciona antes de guardar.",
     en: "Check that everything works before saving.",
   },
   "settings.wizard.test": { es: "Probar conexión", en: "Test connection" },
-  "settings.wizard.save": { es: "Guardar configuración", en: "Save configuration" },
+  "settings.wizard.save": {
+    es: "Guardar configuración",
+    en: "Save configuration",
+  },
   "settings.wizard.errBaseUrl": {
     es: "Introduce la URL base de la API.",
     en: "Enter the API base URL.",
   },
-  "settings.wizard.errApiKey": { es: "Introduce la API key.", en: "Enter the API key." },
+  "settings.wizard.errApiKey": {
+    es: "Introduce la API key.",
+    en: "Enter the API key.",
+  },
   "settings.wizard.errModel": {
     es: "Selecciona o escribe un modelo.",
     en: "Select or type a model.",
@@ -468,7 +675,10 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
     es: "Introduce la URL base del proveedor.",
     en: "Enter the provider base URL.",
   },
-  "settings.wizard.errModelsKey": { es: "Introduce la API key.", en: "Enter the API key." },
+  "settings.wizard.errModelsKey": {
+    es: "Introduce la API key.",
+    en: "Enter the API key.",
+  },
   "settings.wizard.localNoKey": {
     es: "Los proveedores locales no necesitan API key. Déjala vacía.",
     en: "Local providers don't need an API key. Leave it empty.",
@@ -477,12 +687,24 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   // ---- Actualizaciones ----
   "updates.title": { es: "Actualizaciones", en: "Updates" },
   "updates.check": { es: "Buscar actualizaciones", en: "Check for updates" },
-  "updates.checking": { es: "Comprobando actualizaciones...", en: "Checking for updates..." },
+  "updates.checking": {
+    es: "Comprobando actualizaciones...",
+    en: "Checking for updates...",
+  },
   "updates.upToDate": { es: "Estás al día.", en: "You're up to date." },
-  "updates.available": { es: "Nueva versión disponible: {version}", en: "New version available: {version}" },
+  "updates.available": {
+    es: "Nueva versión disponible: {version}",
+    en: "New version available: {version}",
+  },
   "updates.install": { es: "Actualizar ahora", en: "Update now" },
-  "updates.downloading": { es: "Descargando... {p}%", en: "Downloading... {p}%" },
-  "updates.installed": { es: "Actualización instalada. Reiniciando...", en: "Update installed. Restarting..." },
+  "updates.downloading": {
+    es: "Descargando... {p}%",
+    en: "Downloading... {p}%",
+  },
+  "updates.installed": {
+    es: "Actualización instalada. Reiniciando...",
+    en: "Update installed. Restarting...",
+  },
   "updates.error": {
     es: "No se pudo comprobar las actualizaciones.",
     en: "Could not check for updates.",

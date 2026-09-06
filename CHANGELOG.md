@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/luisfer-cli/librejob/compare/v0.4.0...v0.5.0) (2026-09-06)
+
+
+### Features
+
+* add onboarding tour and CV style previews ([b20b830](https://github.com/luisfer-cli/librejob/commit/b20b830ec69636314c4b2864ca7fcfa6bda69251))
+
 ## [0.4.0](https://github.com/luisfer-cli/librejob/compare/v0.3.3...v0.4.0) (2026-08-30)
 
 

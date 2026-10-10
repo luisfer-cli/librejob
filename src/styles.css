@@ -365,6 +365,19 @@ select {
   height: 36px;
 }
 
+select {
+  color-scheme: light;
+}
+
+[data-theme="dark"] select {
+  color-scheme: dark;
+}
+
+select option {
+  color: var(--text);
+  background: var(--bg-card);
+}
+
 textarea {
   resize: none;
   min-height: 100px;
@@ -496,6 +509,25 @@ select:focus {
 
 .toast.leaving {
   animation: toast-out 0.16s ease forwards;
+}
+
+.ai-activity {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 260;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text);
+  box-shadow: var(--shadow-lg);
+  font-size: 12.5px;
+  font-weight: 600;
+  pointer-events: none;
 }
 
 @keyframes toast-in {

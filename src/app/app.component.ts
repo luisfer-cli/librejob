@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import {
+  NavigationEnd,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -9,6 +10,7 @@ import { CommonModule } from "@angular/common";
 import { SettingsService } from "./core/settings.service";
 import { I18nService } from "./core/i18n.service";
 import { UpdaterService } from "./core/updater.service";
+import { AiActivityService } from "./core/ai-activity.service";
 import { TranslatePipe } from "./core/translate.pipe";
 import { ConfirmDialogComponent } from "./components/confirm-dialog/confirm-dialog.component";
 
@@ -51,20 +53,40 @@ export class AppComponent implements OnInit {
 
   showWelcomeTour = false;
   welcomeStep = 0;
+  lastRoutes = {
+    dashboard: "/dashboard",
+    cv: "/cv",
+    offers: "/offers",
+    tests: "/tests",
+    settings: "/settings",
+  };
 
   constructor(
     public settings: SettingsService,
     private i18n: I18nService,
+    public aiActivity: AiActivityService,
     private updater: UpdaterService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) this.rememberRoute(event.urlAfterRedirects);
+    });
     void this.init();
   }
 
   get isWelcomeLastStep(): boolean {
     return this.welcomeStep === this.welcomeSteps.length - 1;
+  }
+
+  private rememberRoute(url: string): void {
+    const path = url.split("?")[0];
+    if (path === "/dashboard") this.lastRoutes.dashboard = url;
+    else if (path === "/cv") this.lastRoutes.cv = url;
+    else if (path.startsWith("/offers")) this.lastRoutes.offers = url;
+    else if (path.startsWith("/tests")) this.lastRoutes.tests = url;
+    else if (path.startsWith("/settings")) this.lastRoutes.settings = url;
   }
 
   private async init(): Promise<void> {

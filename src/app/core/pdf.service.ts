@@ -300,11 +300,27 @@ export class PdfService {
         style: "sectionHeader",
       });
       content.push(themedRule());
-      content.push({
-        text: cv.skills.join(", "),
-        style: "body",
-        margin: [0, 8, 0, 0],
-      });
+      const skillGroups = new Map<string, string[]>();
+      const ungrouped: string[] = [];
+      for (const skill of cv.skills) {
+        const [category, name] = skill.split(":", 2).map((s) => s.trim());
+        if (category && name) skillGroups.set(category, [...(skillGroups.get(category) ?? []), name]);
+        else if (skill.trim()) ungrouped.push(skill.trim());
+      }
+      for (const [category, items] of skillGroups) {
+        content.push({
+          text: [{ text: `${category}: `, bold: true }, items.join(", ")],
+          style: "body",
+          margin: [0, 8, 0, 0],
+        });
+      }
+      if (ungrouped.length) {
+        content.push({
+          text: ungrouped.join(", "),
+          style: "body",
+          margin: [0, 8, 0, 0],
+        });
+      }
     }
 
     if (cv.languages.length) {

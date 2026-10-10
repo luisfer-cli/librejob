@@ -29,7 +29,7 @@
     <div class="nav-section">
       <span class="nav-label">{{ "nav.principal" | t }}</span>
       <a
-        routerLink="/dashboard"
+        [routerLink]="lastRoutes.dashboard"
         routerLinkActive="active"
         [title]="'nav.dashboard' | t"
       >
@@ -40,12 +40,12 @@
 
     <div class="nav-section">
       <span class="nav-label">{{ "nav.manage" | t }}</span>
-      <a routerLink="/cv" routerLinkActive="active" [title]="'nav.cv' | t">
+      <a [routerLink]="lastRoutes.cv" routerLinkActive="active" [title]="'nav.cv' | t">
         <span class="icon nf nf-account"></span>
         <span class="nav-text">{{ "nav.cv" | t }}</span>
       </a>
       <a
-        routerLink="/offers"
+        [routerLink]="lastRoutes.offers"
         routerLinkActive="active"
         [title]="'nav.offers' | t"
       >
@@ -53,7 +53,7 @@
         <span class="nav-text">{{ "nav.offers" | t }}</span>
       </a>
       <a
-        routerLink="/tests"
+        [routerLink]="lastRoutes.tests"
         routerLinkActive="active"
         [title]="'nav.tests' | t"
       >
@@ -65,7 +65,7 @@
     <div class="nav-section">
       <span class="nav-label">{{ "nav.system" | t }}</span>
       <a
-        routerLink="/settings"
+        [routerLink]="lastRoutes.settings"
         routerLinkActive="active"
         [title]="'nav.settings' | t"
       >
@@ -113,6 +113,11 @@
 </main>
 
 <app-confirm-dialog />
+
+<div class="ai-activity" *ngIf="aiActivity.active()">
+  <span class="spinner"></span>
+  <span>{{ "ai.running" | t }}</span>
+</div>
 
 <div
   class="welcome-backdrop"

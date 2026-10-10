@@ -99,6 +99,21 @@ export class CvComponent implements OnInit {
   skillForm: Skill = emptySkill();
   skillEditId: number | null = null;
 
+  get skillCategories(): string[] {
+    return [...new Set(this.skills.map((s) => s.category.trim()).filter(Boolean))].sort((a, b) =>
+      a.localeCompare(b),
+    );
+  }
+
+  get skillGroups(): { category: string; skills: Skill[] }[] {
+    const groups = new Map<string, Skill[]>();
+    for (const skill of this.skills) {
+      const category = skill.category.trim() || this.i18n.t("cvw.noCategory");
+      groups.set(category, [...(groups.get(category) ?? []), skill]);
+    }
+    return [...groups].map(([category, skills]) => ({ category, skills }));
+  }
+
   langForm: Language = emptyLang();
   langEditId: number | null = null;
 
@@ -183,7 +198,12 @@ export class CvComponent implements OnInit {
         ...this.profile,
         experiences: this.experiences,
         education: this.education,
-        skills: this.skills.map((skill) => skill.name).filter(Boolean),
+        skills: this.skills.flatMap((skill) => {
+          const name = skill.name.trim();
+          if (!name) return [];
+          const category = skill.category.trim();
+          return [category ? `${category}: ${name}` : name];
+        }),
         languages: this.languages,
         certifications: this.certifications,
         projects: this.projects,
@@ -271,7 +291,7 @@ export class CvComponent implements OnInit {
   }
 
   private cloneCvData(cv: CvData): CvData {
-    return JSON.parse(JSON.stringify(cv)) as CvData;
+    return structuredClone(cv);
   }
 
   // --- Experiencia ---

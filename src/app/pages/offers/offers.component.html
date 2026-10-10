@@ -111,8 +111,19 @@
       </div>
     </div>
 
+    <label class="ats-toggle">
+      <span class="ats-toggle-icon nf nf-chart"></span>
+      <span class="ats-toggle-text">
+        <strong>{{ "offers.generateAts" | t }}</strong>
+        <span class="muted">{{ "offers.generateAtsDesc" | t }}</span>
+      </span>
+      <input type="checkbox" [(ngModel)]="generateAts" [disabled]="saving" />
+    </label>
+
     <button class="btn btn-primary" (click)="save()" [disabled]="saving">
-      <span class="nf nf-save"></span> {{ "offers.save" | t }}
+      <span *ngIf="saving" class="spinner"></span>
+      <span *ngIf="!saving" class="nf nf-save"></span>
+      {{ "offers.save" | t }}
     </button>
   </div>
 </div>

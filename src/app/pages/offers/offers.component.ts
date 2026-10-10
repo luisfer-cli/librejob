@@ -26,6 +26,7 @@ export class OffersComponent implements OnInit {
   saving = false;
   parsed = false;
   error = "";
+  generateAts = false;
 
   rawText = "";
   form: JobOfferStructured = this.emptyForm();
@@ -94,6 +95,7 @@ export class OffersComponent implements OnInit {
     this.rawText = "";
     this.form = this.emptyForm();
     this.parsed = false;
+    this.generateAts = false;
     this.error = "";
     setTimeout(() => this.pasteInput?.nativeElement.focus(), 0);
   }
@@ -130,7 +132,7 @@ export class OffersComponent implements OnInit {
     }
     this.saving = true;
     try {
-      await this.db.createOffer({
+      const id = await this.db.createOffer({
         title: this.form.title,
         company: this.form.company,
         location: this.form.location,
@@ -140,6 +142,15 @@ export class OffersComponent implements OnInit {
         salary: this.form.salary,
         url: this.form.applicationUrl,
       });
+      if (this.generateAts) {
+        try {
+          const cvData = await this.db.getCvData();
+          const analysis = await this.ai.analyzeAts(cvData, this.form);
+          await this.db.saveAtsAnalysis(id, analysis);
+        } catch (e) {
+          console.error("No se pudo generar el análisis ATS:", e);
+        }
+      }
       this.showNew = false;
       await this.load();
     } finally {

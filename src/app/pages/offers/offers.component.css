@@ -71,6 +71,46 @@
   margin-top: 12px;
 }
 
+.ats-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0 12px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-subtle);
+  cursor: pointer;
+}
+
+.ats-toggle-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 16px;
+}
+
+.ats-toggle-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ats-toggle input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--ink);
+}
+
 .result {
   margin-top: 20px;
   padding-top: 18px;

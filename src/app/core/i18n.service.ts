@@ -4,6 +4,8 @@ import { DbService } from "./db.service";
 export type Lang = "es" | "en";
 
 const MESSAGES: Record<string, Record<Lang, string>> = {
+  "ai.running": { es: "IA trabajando…", en: "AI working…" },
+
   // ---- Navegación ----
   "nav.principal": { es: "Principal", en: "Main" },
   "nav.manage": { es: "Gestión", en: "Manage" },
@@ -89,6 +91,14 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   },
   "offers.process": { es: "Procesar con IA", en: "Process with AI" },
   "offers.save": { es: "Guardar oferta", en: "Save offer" },
+  "offers.generateAts": {
+    es: "Generar análisis ATS al guardar",
+    en: "Generate ATS analysis when saving",
+  },
+  "offers.generateAtsDesc": {
+    es: "Compara esta oferta con tu CV base automáticamente.",
+    en: "Automatically compare this offer with your base resume.",
+  },
   "offers.extracted": { es: "Datos extraídos", en: "Extracted data" },
   "offers.field.title": { es: "Título", en: "Title" },
   "offers.field.company": { es: "Empresa", en: "Company" },
@@ -403,7 +413,14 @@ const MESSAGES: Record<string, Record<Lang, string>> = {
   "cvw.addSkill": { es: "Añadir competencia", en: "Add skill" },
   "cvw.skill": { es: "Competencia", en: "Skill" },
   "cvw.level": { es: "Nivel", en: "Level" },
-  "cvw.category": { es: "Categoría", en: "Category" },
+  "cvw.category": { es: "Etiqueta", en: "Tag" },
+  "cvw.noCategory": { es: "Sin etiqueta", en: "Untagged" },
+  "cvw.categoryPlaceholder": { es: "Ej. Frontend, Backend, IA", en: "E.g. Frontend, Backend, AI" },
+  "cvw.categoryHelp": {
+    es: "Escribe una etiqueta nueva o elige una existente.",
+    en: "Type a new tag or choose an existing one.",
+  },
+  "cvw.useCategory": { es: "Usar etiqueta:", en: "Use tag:" },
   "cvw.noLanguages": {
     es: "Aún no has añadido idiomas.",
     en: "You haven't added any languages yet.",

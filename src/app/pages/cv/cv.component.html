@@ -3,7 +3,7 @@
     <h1>{{ "cvw.title" | t }}</h1>
     <span class="muted">{{ "cvw.subtitle" | t }}</span>
   </div>
-  <button class="btn btn-primary cv-export-btn" type="button" (click)="exportPdf()" [disabled]="exporting">
+  <button class="btn btn-primary" type="button" (click)="exportPdf()" [disabled]="exporting">
     <span class="nf nf-save"></span>
     {{ exporting ? ("busy.pdf" | t) : ("cvw.exportPdf" | t) }}
   </button>
@@ -77,24 +77,13 @@
   <!-- Paso 1: Experiencia -->
   <ng-container *ngIf="step === 1">
     <h2>{{ "cvw.experienceTitle" | t }}</h2>
-    <div class="list-panel">
-      <div class="item" *ngFor="let e of experiences">
-        <div class="item-body">
-          <strong>{{ e.role || ("cvw.noRole" | t) }}</strong> {{ "cvw.in" | t }} {{ e.company || ("cvw.noCompany" | t) }}
-          <span class="muted" *ngIf="e.startDate || e.endDate">
-            · {{ e.startDate }} – {{ e.current ? ("cvw.current" | t) : e.endDate }}
-          </span>
-        </div>
-        <div class="item-actions">
-          <button class="btn btn-sm" (click)="editExperience(e)">{{ "common.edit" | t }}</button>
-          <button class="btn btn-sm btn-danger" (click)="removeExperience(e.id!)">{{ "common.delete" | t }}</button>
-        </div>
-      </div>
-      <p *ngIf="!experiences.length" class="muted">{{ "cvw.noExperiences" | t }}</p>
-    </div>
-
     <div class="mini-form">
-      <h3>{{ expEditId != null ? ("cvw.editingExperience" | t) : ("cvw.addExperience" | t) }}</h3>
+      <div class="mini-form-head">
+        <h3>{{ expEditId != null ? ("cvw.editingExperience" | t) : ("cvw.addExperience" | t) }}</h3>
+        <button class="btn btn-primary" type="button" (click)="saveExperience()">
+          {{ expEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
+        </button>
+      </div>
       <div class="grid grid-2">
         <div class="field">
           <label>{{ "cvw.company" | t }}</label>
@@ -137,34 +126,38 @@
           <button type="button" class="btn btn-sm" (click)="addAchievement()">{{ "cvw.add" | t }}</button>
         </div>
       </div>
-      <div class="row">
-        <button class="btn btn-primary" (click)="saveExperience()">
-          {{ expEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
-        </button>
-        <button *ngIf="expEditId != null" class="btn" (click)="cancelExpEdit()">{{ "common.cancel" | t }}</button>
+      <div class="row" *ngIf="expEditId != null">
+        <button class="btn" (click)="cancelExpEdit()">{{ "common.cancel" | t }}</button>
       </div>
+    </div>
+
+    <div class="list-panel">
+      <div class="item" *ngFor="let e of experiences">
+        <div class="item-body">
+          <strong>{{ e.role || ("cvw.noRole" | t) }}</strong> {{ "cvw.in" | t }} {{ e.company || ("cvw.noCompany" | t) }}
+          <span class="muted" *ngIf="e.startDate || e.endDate">
+            · {{ e.startDate }} – {{ e.current ? ("cvw.current" | t) : e.endDate }}
+          </span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-sm" (click)="editExperience(e)">{{ "common.edit" | t }}</button>
+          <button class="btn btn-sm btn-danger" (click)="removeExperience(e.id!)">{{ "common.delete" | t }}</button>
+        </div>
+      </div>
+      <p *ngIf="!experiences.length" class="muted">{{ "cvw.noExperiences" | t }}</p>
     </div>
   </ng-container>
 
   <!-- Paso 2: Educación -->
   <ng-container *ngIf="step === 2">
     <h2>{{ "cvw.step.education" | t }}</h2>
-    <div class="list-panel">
-      <div class="item" *ngFor="let e of education">
-        <div class="item-body">
-          <strong>{{ e.degree || ("cvedit.degree" | t) }}</strong> — {{ e.institution || ("cvedit.institution" | t) }}
-          <span class="muted" *ngIf="e.startDate || e.endDate"> · {{ e.startDate }} – {{ e.endDate }}</span>
-        </div>
-        <div class="item-actions">
-          <button class="btn btn-sm" (click)="editEducation(e)">{{ "common.edit" | t }}</button>
-          <button class="btn btn-sm btn-danger" (click)="removeEducation(e.id!)">{{ "common.delete" | t }}</button>
-        </div>
-      </div>
-      <p *ngIf="!education.length" class="muted">{{ "cvw.noEducation" | t }}</p>
-    </div>
-
     <div class="mini-form">
-      <h3>{{ eduEditId != null ? ("cvw.editingEducation" | t) : ("cvw.addEducation" | t) }}</h3>
+      <div class="mini-form-head">
+        <h3>{{ eduEditId != null ? ("cvw.editingEducation" | t) : ("cvw.addEducation" | t) }}</h3>
+        <button class="btn btn-primary" type="button" (click)="saveEducation()">
+          {{ eduEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
+        </button>
+      </div>
       <div class="grid grid-2">
         <div class="field">
           <label>{{ "cvw.institution" | t }}</label>
@@ -186,32 +179,33 @@
           </div>
         </div>
       </div>
-      <button class="btn btn-primary" (click)="saveEducation()">
-        {{ eduEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
-      </button>
+    </div>
+
+    <div class="list-panel">
+      <div class="item" *ngFor="let e of education">
+        <div class="item-body">
+          <strong>{{ e.degree || ("cvedit.degree" | t) }}</strong> — {{ e.institution || ("cvedit.institution" | t) }}
+          <span class="muted" *ngIf="e.startDate || e.endDate"> · {{ e.startDate }} – {{ e.endDate }}</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-sm" (click)="editEducation(e)">{{ "common.edit" | t }}</button>
+          <button class="btn btn-sm btn-danger" (click)="removeEducation(e.id!)">{{ "common.delete" | t }}</button>
+        </div>
+      </div>
+      <p *ngIf="!education.length" class="muted">{{ "cvw.noEducation" | t }}</p>
     </div>
   </ng-container>
 
   <!-- Paso 3: Competencias -->
   <ng-container *ngIf="step === 3">
     <h2>{{ "cvw.step.skills" | t }}</h2>
-    <div class="list-panel">
-      <div class="item" *ngFor="let s of skills">
-        <div class="item-body">
-          <strong>{{ s.name }}</strong>
-          <span class="muted"> · {{ s.level }}</span>
-          <span class="badge" *ngIf="s.category">{{ s.category }}</span>
-        </div>
-        <div class="item-actions">
-          <button class="btn btn-sm" (click)="editSkill(s)">{{ "common.edit" | t }}</button>
-          <button class="btn btn-sm btn-danger" (click)="removeSkill(s.id!)">{{ "common.delete" | t }}</button>
-        </div>
-      </div>
-      <p *ngIf="!skills.length" class="muted">{{ "cvw.noSkills" | t }}</p>
-    </div>
-
     <div class="mini-form">
-      <h3>{{ "cvw.addSkill" | t }}</h3>
+      <div class="mini-form-head">
+        <h3>{{ "cvw.addSkill" | t }}</h3>
+        <button class="btn btn-primary" type="button" (click)="saveSkill()">
+          {{ skillEditId == null ? ("cvw.add" | t) : ("cvw.saveChanges" | t) }}
+        </button>
+      </div>
       <div class="grid grid-3">
         <div class="field">
           <label>{{ "cvw.skill" | t }}</label>
@@ -223,16 +217,61 @@
         </div>
         <div class="field">
           <label>{{ "cvw.category" | t }}</label>
-          <input [(ngModel)]="skillForm.category" />
+          <input [(ngModel)]="skillForm.category" list="skill-categories" [placeholder]="'cvw.categoryPlaceholder' | t" />
+          <span class="muted field-help">{{ "cvw.categoryHelp" | t }}</span>
+          <datalist id="skill-categories">
+            <option *ngFor="let c of skillCategories" [value]="c"></option>
+          </datalist>
         </div>
       </div>
-      <button class="btn btn-primary" (click)="saveSkill()">{{ "cvw.add" | t }}</button>
+      <div class="tag-picker" *ngIf="skillCategories.length">
+        <span class="muted">{{ "cvw.useCategory" | t }}</span>
+        <button class="btn btn-sm" type="button" *ngFor="let c of skillCategories" (click)="skillForm.category = c">
+          {{ c }}
+        </button>
+      </div>
+    </div>
+
+    <div class="list-panel">
+      <div class="skill-group" *ngFor="let group of skillGroups">
+        <h3>{{ group.category }}</h3>
+        <div class="item" *ngFor="let s of group.skills">
+          <div class="item-body">
+            <strong>{{ s.name }}</strong>
+            <span class="muted" *ngIf="s.level"> · {{ s.level }}</span>
+          </div>
+          <div class="item-actions">
+            <button class="btn btn-sm" (click)="editSkill(s)">{{ "common.edit" | t }}</button>
+            <button class="btn btn-sm btn-danger" (click)="removeSkill(s.id!)">{{ "common.delete" | t }}</button>
+          </div>
+        </div>
+      </div>
+      <p *ngIf="!skills.length" class="muted">{{ "cvw.noSkills" | t }}</p>
     </div>
   </ng-container>
 
   <!-- Paso 4: Idiomas -->
   <ng-container *ngIf="step === 4">
     <h2>{{ "cvw.step.languages" | t }}</h2>
+    <div class="mini-form">
+      <div class="mini-form-head">
+        <h3>{{ "cvw.addLanguage" | t }}</h3>
+        <button class="btn btn-primary" type="button" (click)="saveLanguage()">
+          {{ langEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
+        </button>
+      </div>
+      <div class="grid grid-2">
+        <div class="field">
+          <label>{{ "cvw.language" | t }}</label>
+          <input [(ngModel)]="langForm.name" />
+        </div>
+        <div class="field">
+          <label>{{ "cvw.level" | t }}</label>
+          <input [(ngModel)]="langForm.level" />
+        </div>
+      </div>
+    </div>
+
     <div class="list-panel">
       <div class="item" *ngFor="let l of languages">
         <div class="item-body">
@@ -246,42 +285,18 @@
       </div>
       <p *ngIf="!languages.length" class="muted">{{ "cvw.noLanguages" | t }}</p>
     </div>
-
-    <div class="mini-form">
-      <h3>{{ "cvw.addLanguage" | t }}</h3>
-      <div class="grid grid-2">
-        <div class="field">
-          <label>{{ "cvw.language" | t }}</label>
-          <input [(ngModel)]="langForm.name" />
-        </div>
-        <div class="field">
-          <label>{{ "cvw.level" | t }}</label>
-          <input [(ngModel)]="langForm.level" />
-        </div>
-      </div>
-      <button class="btn btn-primary" (click)="saveLanguage()">{{ "cvw.add" | t }}</button>
-    </div>
   </ng-container>
 
   <!-- Paso 5: Certificaciones -->
   <ng-container *ngIf="step === 5">
     <h2>{{ "cvw.step.certs" | t }}</h2>
-    <div class="list-panel">
-      <div class="item" *ngFor="let c of certifications">
-        <div class="item-body">
-          <strong>{{ c.name }}</strong>
-          <span class="muted"> · {{ c.issuer }} · {{ c.date }}</span>
-        </div>
-        <div class="item-actions">
-          <button class="btn btn-sm" (click)="editCertification(c)">{{ "common.edit" | t }}</button>
-          <button class="btn btn-sm btn-danger" (click)="removeCertification(c.id!)">{{ "common.delete" | t }}</button>
-        </div>
-      </div>
-      <p *ngIf="!certifications.length" class="muted">{{ "cvw.noCerts" | t }}</p>
-    </div>
-
     <div class="mini-form">
-      <h3>{{ "cvw.addCert" | t }}</h3>
+      <div class="mini-form-head">
+        <h3>{{ "cvw.addCert" | t }}</h3>
+        <button class="btn btn-primary" type="button" (click)="saveCertification()">
+          {{ certEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
+        </button>
+      </div>
       <div class="grid grid-3">
         <div class="field">
           <label>{{ "cvw.name" | t }}</label>
@@ -296,29 +311,33 @@
           <input type="month" [(ngModel)]="certForm.date" [attr.aria-label]="'cvw.date' | t" />
         </div>
       </div>
-      <button class="btn btn-primary" (click)="saveCertification()">{{ "cvw.add" | t }}</button>
+    </div>
+
+    <div class="list-panel">
+      <div class="item" *ngFor="let c of certifications">
+        <div class="item-body">
+          <strong>{{ c.name }}</strong>
+          <span class="muted"> · {{ c.issuer }} · {{ c.date }}</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-sm" (click)="editCertification(c)">{{ "common.edit" | t }}</button>
+          <button class="btn btn-sm btn-danger" (click)="removeCertification(c.id!)">{{ "common.delete" | t }}</button>
+        </div>
+      </div>
+      <p *ngIf="!certifications.length" class="muted">{{ "cvw.noCerts" | t }}</p>
     </div>
   </ng-container>
 
   <!-- Paso 6: Proyectos -->
   <ng-container *ngIf="step === 6">
     <h2>{{ "cvw.step.projects" | t }}</h2>
-    <div class="list-panel">
-      <div class="item" *ngFor="let p of projects">
-        <div class="item-body">
-          <strong>{{ p.name }}</strong>
-          <span class="muted" *ngIf="p.link"> · {{ p.link }}</span>
-        </div>
-        <div class="item-actions">
-          <button class="btn btn-sm" (click)="editProject(p)">{{ "common.edit" | t }}</button>
-          <button class="btn btn-sm btn-danger" (click)="removeProject(p.id!)">{{ "common.delete" | t }}</button>
-        </div>
-      </div>
-      <p *ngIf="!projects.length" class="muted">{{ "cvw.noProjects" | t }}</p>
-    </div>
-
     <div class="mini-form">
-      <h3>{{ "cvw.addProject" | t }}</h3>
+      <div class="mini-form-head">
+        <h3>{{ "cvw.addProject" | t }}</h3>
+        <button class="btn btn-primary" type="button" (click)="saveProject()">
+          {{ projectEditId != null ? ("cvw.saveChanges" | t) : ("cvw.add" | t) }}
+        </button>
+      </div>
       <div class="grid grid-2">
         <div class="field">
           <label>{{ "cvw.name" | t }}</label>
@@ -333,7 +352,20 @@
         <label>{{ "cvw.descriptionField" | t }}</label>
         <textarea [(ngModel)]="projectForm.description"></textarea>
       </div>
-      <button class="btn btn-primary" (click)="saveProject()">{{ "cvw.add" | t }}</button>
+    </div>
+
+    <div class="list-panel">
+      <div class="item" *ngFor="let p of projects">
+        <div class="item-body">
+          <strong>{{ p.name }}</strong>
+          <span class="muted" *ngIf="p.link"> · {{ p.link }}</span>
+        </div>
+        <div class="item-actions">
+          <button class="btn btn-sm" (click)="editProject(p)">{{ "common.edit" | t }}</button>
+          <button class="btn btn-sm btn-danger" (click)="removeProject(p.id!)">{{ "common.delete" | t }}</button>
+        </div>
+      </div>
+      <p *ngIf="!projects.length" class="muted">{{ "cvw.noProjects" | t }}</p>
     </div>
   </ng-container>
 

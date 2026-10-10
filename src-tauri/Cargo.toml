@@ -1,6 +1,6 @@
 [package]
 name = "librejob"
-version = "0.5.0"
+version = "0.6.0"
 description = "AI-assisted job hunting desktop app"
 authors = ["Luis Fernando Rodriguez <luis.rodriguez21@ucr.ac.cr>"]
 edition = "2021"

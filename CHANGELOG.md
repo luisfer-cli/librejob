@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/luisfer-cli/librejob/compare/v0.5.0...v0.6.0) (2026-10-10)
+
+
+### Features
+
+* improve CV editing and AI workflow ([da9cc56](https://github.com/luisfer-cli/librejob/commit/da9cc5653894efc1bbda4e572b919118b75d516f))
+
 ## [0.5.0](https://github.com/luisfer-cli/librejob/compare/v0.4.0...v0.5.0) (2026-09-06)
 
 

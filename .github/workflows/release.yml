@@ -487,6 +487,7 @@ jobs:
       - name: Generate and upload latest.json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
           INPUT_TAG: ${{ github.event.inputs.tagName }}
           RELEASE_TAG: ${{ needs.release-please.outputs.tag_name }}
         shell: bash

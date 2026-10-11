@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/luisfer-cli/librejob/compare/v0.6.1...v0.6.2) (2026-10-11)
+
+
+### Bug Fixes
+
+* generate updater manifest without checkout ([6789858](https://github.com/luisfer-cli/librejob/commit/678985815fcfc0d2b170ffb41de5d3af79da42d0))
+
 ## [0.6.1](https://github.com/luisfer-cli/librejob/compare/v0.6.0...v0.6.1) (2026-10-11)
 
 

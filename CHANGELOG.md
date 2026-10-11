@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/luisfer-cli/librejob/compare/v0.6.0...v0.6.1) (2026-10-11)
+
+
+### Bug Fixes
+
+* publish updater latest manifest ([35da255](https://github.com/luisfer-cli/librejob/commit/35da25533fa8d9cb7ad1ebcc454b020eb931d054))
+
 ## [0.6.0](https://github.com/luisfer-cli/librejob/compare/v0.5.0...v0.6.0) (2026-10-10)
 
 
